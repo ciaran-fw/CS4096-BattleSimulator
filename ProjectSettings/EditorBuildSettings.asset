@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Project/Scenes/MainMenu.unity
     guid: 4ddd2ce74087f0843b4f9e5e8de328ff
   - enabled: 1
-    path: Assets/Project/Scenes/Movement.unity
+    path: Assets/Project/Scenes/Woods.unity
     guid: cb205f9bb6e7a2c4f9ce8a03a22dde9f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
