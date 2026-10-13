@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 835771675519595158}
   - component: {fileID: 9125116126886864605}
   - component: {fileID: 5992016863646383224}
+  - component: {fileID: 8675603895434971693}
   m_Layer: 5
   m_Name: Unit Card
   m_TagString: Untagged
@@ -290,6 +291,18 @@ MonoBehaviour:
   unitIcon: {fileID: 2144713160943427490}
   unitName: {fileID: 6662764711160027871}
   unitPrice: {fileID: 138738508644681513}
+--- !u!114 &8675603895434971693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526763414283074640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda9c44f2a787ba47a8237c6b7706d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
 --- !u!1 &6410461207822832244
 GameObject:
   m_ObjectHideFlags: 0

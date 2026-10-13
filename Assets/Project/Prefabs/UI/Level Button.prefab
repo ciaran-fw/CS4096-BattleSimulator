@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 8159239599033671530}
   - component: {fileID: 1127942819086723257}
   - component: {fileID: -6128757505074200728}
+  - component: {fileID: 6426661854384383900}
   m_Layer: 5
   m_Name: Level Button
   m_TagString: Untagged
@@ -273,3 +274,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelButton
   levelText: {fileID: 5675017836467422099}
   button: {fileID: 1127942819086723257}
+--- !u!114 &6426661854384383900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7645824084048945718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda9c44f2a787ba47a8237c6b7706d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio

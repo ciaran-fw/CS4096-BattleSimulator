@@ -98,6 +98,8 @@ public class GameHUDController : MonoBehaviour
 
         settingsPanel.SetActive(showSettings);
 
+        AudioManager.Instance?.PlayPanelOpen();
+
         if (showSettings)
         {
             helpPanel.SetActive(false);
@@ -109,6 +111,7 @@ public class GameHUDController : MonoBehaviour
         bool showHelp = !helpPanel.activeSelf;
 
         helpPanel.SetActive(showHelp);
+        AudioManager.Instance?.PlayPanelOpen();
 
         if (showHelp)
         {

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8637327643935502973}
   - component: {fileID: 8817785478027304098}
   - component: {fileID: 7760319354926320199}
+  - component: {fileID: 3665922532710337463}
   m_Layer: 5
   m_Name: Home Button
   m_TagString: Untagged
@@ -120,6 +121,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3665922532710337463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51345243401222975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda9c44f2a787ba47a8237c6b7706d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
 --- !u!1 &1189047927006115938
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,6 +481,7 @@ GameObject:
   - component: {fileID: 602952215996551885}
   - component: {fileID: 3764813095803088248}
   - component: {fileID: 3268640120824213891}
+  - component: {fileID: 2293199367683469708}
   m_Layer: 5
   m_Name: Pause Button
   m_TagString: Untagged
@@ -576,6 +590,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2293199367683469708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577805727573207439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda9c44f2a787ba47a8237c6b7706d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
 --- !u!1 &1835090643798359279
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,6 +614,7 @@ GameObject:
   - component: {fileID: 2154496733333065994}
   - component: {fileID: 5721309107797012921}
   - component: {fileID: 3729413481798027390}
+  - component: {fileID: 599256800750235962}
   m_Layer: 5
   m_Name: Play Button
   m_TagString: Untagged
@@ -696,6 +723,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &599256800750235962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835090643798359279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda9c44f2a787ba47a8237c6b7706d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
 --- !u!1 &2030313377275674391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1751,6 +1790,7 @@ GameObject:
   - component: {fileID: 5009422170038026209}
   - component: {fileID: 7335488217676359567}
   - component: {fileID: 5878913423348785016}
+  - component: {fileID: 3054968005985442495}
   m_Layer: 5
   m_Name: Help Button
   m_TagString: Untagged
@@ -1859,6 +1899,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3054968005985442495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6066952483534866410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda9c44f2a787ba47a8237c6b7706d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
 --- !u!1 &6136646623147458402
 GameObject:
   m_ObjectHideFlags: 0
@@ -2086,6 +2138,7 @@ GameObject:
   - component: {fileID: 2545805448888985867}
   - component: {fileID: 5497195280063916310}
   - component: {fileID: 6800046959002903583}
+  - component: {fileID: 3029499797938597831}
   m_Layer: 5
   m_Name: Settings Button
   m_TagString: Untagged
@@ -2194,6 +2247,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3029499797938597831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6893997992714616510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda9c44f2a787ba47a8237c6b7706d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
 --- !u!1 &7941752943990106173
 GameObject:
   m_ObjectHideFlags: 0
@@ -2515,6 +2580,7 @@ GameObject:
   - component: {fileID: 7204476990515030565}
   - component: {fileID: 3578019943148521524}
   - component: {fileID: 7381316260723188845}
+  - component: {fileID: 4815530248326866942}
   m_Layer: 5
   m_Name: Stop Button
   m_TagString: Untagged
@@ -2623,3 +2689,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4815530248326866942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8812604751393977416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda9c44f2a787ba47a8237c6b7706d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
