@@ -16,7 +16,10 @@ public class GameManager : MonoBehaviour
     {
         Gold = startingGold;
         UnitCount = startingUnitCount;
+    }
 
+    private void Start()
+    {
         AudioManager.Instance?.PlayGameMusic();
     }
 
