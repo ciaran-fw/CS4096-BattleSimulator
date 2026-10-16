@@ -51,4 +51,20 @@ public class GameManager : MonoBehaviour
         BattlePaused = false;
         TimePlayed = 0f;
     }
+
+    public bool TrySpendGold(int amount)
+    {
+        if (amount < 0 || Gold < amount) return false;
+
+        Gold -= amount;
+        return true;
+    }
+
+    public bool SetUnitCount(int newUnitCount)
+    {
+        if (newUnitCount < 0) return false;
+
+        UnitCount = newUnitCount;
+        return true;
+    }
 }

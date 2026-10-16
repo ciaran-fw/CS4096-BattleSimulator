@@ -4,6 +4,10 @@ public class CameraMovement : MonoBehaviour
 {
     public float CamSpeed = 10f;
 
+    private void Start()
+    {
+        ResetCamera();
+    }
 
     void Update()
     {
@@ -12,5 +16,10 @@ public class CameraMovement : MonoBehaviour
 
         Vector2 move = new Vector2(horizontal, vertical);
         transform.Translate(move * CamSpeed * Time.deltaTime);
+    }
+
+    public void ResetCamera()
+    {
+        transform.position = new Vector3(0f, 0f, -10f);
     }
 }

@@ -291,6 +291,7 @@ MonoBehaviour:
   unitIcon: {fileID: 2144713160943427490}
   unitName: {fileID: 6662764711160027871}
   unitPrice: {fileID: 138738508644681513}
+  button: {fileID: 9125116126886864605}
 --- !u!114 &8675603895434971693
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,10 +1,12 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameHUDController : MonoBehaviour
 {
+    [Header("Game Manager")]
     [SerializeField] private GameManager gameManager;
 
     [Header("Navigation Buttons")]
@@ -26,6 +28,13 @@ public class GameHUDController : MonoBehaviour
     [SerializeField] private Button playButton;
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button stopButton;
+
+    [Header("Unit Placement")]
+    [SerializeField] private GameObject unitSelectionPanel;
+    [SerializeField] private UnitPlacementController placementController;
+
+    [Header("Camera")]
+    [SerializeField] private CameraMovement camera;
 
     private void Awake()
     {
@@ -122,6 +131,9 @@ public class GameHUDController : MonoBehaviour
     private void PlayBattle()
     {
         gameManager.PlayBattle();
+
+        unitSelectionPanel.SetActive(false);
+        placementController.SetPlacementEnabled(false);
     }
 
     private void PauseBattle()
@@ -132,5 +144,10 @@ public class GameHUDController : MonoBehaviour
     private void StopBattle()
     {
         gameManager.StopBattle();
+
+        unitSelectionPanel.SetActive(true);
+        placementController.SetPlacementEnabled(true);
+
+        camera.ResetCamera();
     }
 }
