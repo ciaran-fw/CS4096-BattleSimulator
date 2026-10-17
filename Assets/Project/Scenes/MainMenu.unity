@@ -4819,10 +4819,14 @@ MonoBehaviour:
   levelButtonPrefab: {fileID: -6128757505074200728, guid: bdc7c35851cbcae4cac57fc609d10e4e, type: 3}
   levelButtonParent: {fileID: 1152144703}
   levels:
-  - levelName: Forest
+  - levelName: Village
     sceneName: Woods
   - levelName: Desert
     sceneName: Deserts
+  - levelName: Arctic
+    sceneName: Snowland
+  - levelName: Final
+    sceneName: Bridge
 --- !u!4 &2019424550
 Transform:
   m_ObjectHideFlags: 0
