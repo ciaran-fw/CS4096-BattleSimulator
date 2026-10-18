@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ec0a9616589b82c4db9929b325695a34
+guid: 263dbf3333d94f942b6bda323e61a311
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2368875588930414890
-    second: Log_0
+      213: 7440981132975211316
+    second: wood_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -102,23 +102,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Log_0
+      name: wood_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 554
-        height: 554
+        y: 22
+        width: 2700
+        height: 1578
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a29aa4b1ccfefd020800000000000000
-      internalID: 2368875588930414890
+      spriteID: 4330f5b9aeca34760800000000000000
+      internalID: 7440981132975211316
       vertices: []
       indices: 
       edges: []
@@ -127,7 +127,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 6c709876df7a1994b917d2e26026462e
     internalID: 0
     vertices: []
     indices: 
@@ -137,7 +137,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Log_0: 2368875588930414890
+      wood_0: 7440981132975211316
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
