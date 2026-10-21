@@ -25293,6 +25293,58 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &592071632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 592071634}
+  - component: {fileID: 592071633}
+  m_Layer: 0
+  m_Name: UnitPlacementController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &592071633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592071632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bef4e9ceeb824cb4a21c1d2372a31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitPlacementController
+  gameCamera: {fileID: 1297834106}
+  gameManager: {fileID: 495667049}
+  blockingLayers:
+    serializedVersion: 2
+    m_Bits: 32
+  placementCheckRadius: 0.5
+  validPreviewColor: {r: 0, g: 1, b: 0, a: 0.5}
+  invalidPreviewColor: {r: 1, g: 0, b: 0, a: 0.5}
+--- !u!4 &592071634
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592071632}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.95195, y: -0.52472, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &625433105
 GameObject:
   m_ObjectHideFlags: 0
@@ -25970,6 +26022,55 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &1093483682
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1093483684}
+  - component: {fileID: 1093483683}
+  m_Layer: 0
+  m_Name: UnitSelectionController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1093483683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093483682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e77fa168f49614e909539dcf34a0f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitSelectionController
+  units:
+  - {fileID: 11400000, guid: db1d9aa36f3b1fb48a5a1074e62a9754, type: 2}
+  cardPrefab: {fileID: 5992016863646383224, guid: fcdfd9e56f4e8ad4f8a2f39ea5d9905c, type: 3}
+  cardContainer: {fileID: 1729707323}
+  placementController: {fileID: 592071633}
+--- !u!4 &1093483684
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093483682}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.95195, y: -0.52472, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1162045308
 GameObject:
   m_ObjectHideFlags: 0
@@ -26996,6 +27097,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4365f4685b0e29e49a748bb2adfcdfc2, type: 3}
+--- !u!224 &1729707323 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 334714057759109428, guid: 4365f4685b0e29e49a748bb2adfcdfc2, type: 3}
+  m_PrefabInstance: {fileID: 1729707322}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1758894369
 GameObject:
   m_ObjectHideFlags: 0
@@ -27787,3 +27893,5 @@ SceneRoots:
   - {fileID: 1945150424}
   - {fileID: 1729707322}
   - {fileID: 495667050}
+  - {fileID: 1093483684}
+  - {fileID: 592071634}
