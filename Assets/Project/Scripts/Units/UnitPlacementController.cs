@@ -122,6 +122,8 @@ public class UnitPlacementController : MonoBehaviour
         // add to list to keep track for removal.
         placedUnits.Add(unit);
 
+        // update game manager.
+        gameManager.SetGold(gameManager.Gold - unit.Definition.cost);
         gameManager.SetUnitCount(gameManager.UnitCount + 1);
     }
 
@@ -165,8 +167,9 @@ public class UnitPlacementController : MonoBehaviour
 
         Destroy(unit.gameObject);
 
-        // also just incase for some reason could go below 0.
-        gameManager.SetUnitCount(Mathf.Max(0, gameManager.UnitCount - 1));
+        // update game manager.
+        gameManager.SetGold(gameManager.Gold + unit.Definition.cost);
+        gameManager.SetUnitCount(gameManager.UnitCount - 1);
     }
 
     private void ClearPlacedUnits()
@@ -181,7 +184,9 @@ public class UnitPlacementController : MonoBehaviour
 
         placedUnits.Clear();
 
-        gameManager.SetUnitCount(Mathf.Max(0, gameManager.UnitCount - removedCount));
+        // update game manager.
+        gameManager.SetGold(gameManager.StartingGold);
+        gameManager.SetUnitCount(gameManager.StartingUnitCount);
     }
 
     // ---------------------- PREVIEW ------------------------------

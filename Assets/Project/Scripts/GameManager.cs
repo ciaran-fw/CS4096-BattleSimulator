@@ -5,6 +5,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int startingGold = 1500;
     [SerializeField] private int startingUnitCount = 0;
 
+    public int StartingGold { get; private set; }
+    public int StartingUnitCount { get; private set; }
+
     public int Gold { get; private set; }
     public int UnitCount { get; private set; }
     public float TimePlayed { get; private set; }
@@ -14,8 +17,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Gold = startingGold;
-        UnitCount = startingUnitCount;
+        StartingGold = startingGold;
+        StartingUnitCount = startingUnitCount;
+
+        Gold = StartingGold;
+        UnitCount = StartingUnitCount;
     }
 
     private void Start()
@@ -52,11 +58,11 @@ public class GameManager : MonoBehaviour
         TimePlayed = 0f;
     }
 
-    public bool TrySpendGold(int amount)
+    public bool SetGold(int newGold)
     {
-        if (amount < 0 || Gold < amount) return false;
+        if (newGold < 0) return false;
 
-        Gold -= amount;
+        Gold = newGold;
         return true;
     }
 
