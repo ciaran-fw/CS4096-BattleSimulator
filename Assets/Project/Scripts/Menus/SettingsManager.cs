@@ -1,11 +1,9 @@
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
-    [SerializeField] private AudioManager audioManager;
+    private AudioManager audioManager;
 
     [Header("UI References")]
     [SerializeField] private Slider masterVolumeSlider;
@@ -15,6 +13,9 @@ public class SettingsManager : MonoBehaviour
 
     private void Start()
     {
+        audioManager = AudioManager.Instance;
+
+        SetupListeners();
         LoadSettings();
     }
 
@@ -22,18 +23,30 @@ public class SettingsManager : MonoBehaviour
     {
         PlayerPrefs.SetFloat("MasterVolume", value);
         audioManager.SetMasterVolume(value);
+
+        audioManager.PlayButtonHover();
+
+        SaveSettings();
     }
 
     public void SetMusicVolume(float value)
     {
         PlayerPrefs.SetFloat("MusicVolume", value);
         audioManager.SetMusicVolume(value);
+
+        audioManager.PlayButtonHover();
+
+        SaveSettings();
     }
 
     public void SetSFXVolume(float value)
     {
         PlayerPrefs.SetFloat("SFXVolume", value);
         audioManager.SetSFXVolume(value);
+
+        audioManager.PlayButtonHover();
+
+        SaveSettings();
     }
 
     public void SetFullscreen(bool value)
@@ -48,6 +61,18 @@ public class SettingsManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("Fullscreen", 0);
         }
+
+        audioManager.PlayButtonClick();
+
+        SaveSettings();
+    }
+
+    private void SetupListeners()
+    {
+        masterVolumeSlider.onValueChanged.AddListener(SetMasterVolume);
+        musicVolumeSlider.onValueChanged.AddListener(SetMusicVolume);
+        sfxVolumeSlider.onValueChanged.AddListener(SetSFXVolume);
+        fullscreenToggle.onValueChanged.AddListener(SetFullscreen);
     }
 
     private void LoadSettings()
@@ -70,7 +95,7 @@ public class SettingsManager : MonoBehaviour
         Screen.fullScreen = fullscreen;
     }
 
-    public void SaveSettings()
+    private void SaveSettings()
     {
         PlayerPrefs.Save();
     }

@@ -9,16 +9,16 @@ EditorBuildSettings:
     path: Assets/Project/Scenes/MainMenu.unity
     guid: 4ddd2ce74087f0843b4f9e5e8de328ff
   - enabled: 1
-    path: Assets/Project/Scenes/Woods.unity
+    path: Assets/Project/Scenes/Maps/Woods.unity
     guid: cb205f9bb6e7a2c4f9ce8a03a22dde9f
   - enabled: 1
-    path: Assets/Project/Scenes/Deserts.unity
+    path: Assets/Project/Scenes/Maps/Deserts.unity
     guid: 3fe3696089faf70499325d2d3c8a94eb
   - enabled: 1
-    path: Assets/Project/Scenes/Snowland.unity
+    path: Assets/Project/Scenes/Maps/Snowland.unity
     guid: 09ec6f7a1634e7f45a10114a971a2ee0
   - enabled: 1
-    path: Assets/Project/Scenes/Bridge.unity
+    path: Assets/Project/Scenes/Maps/Bridge.unity
     guid: a45a9084dc327cb47ac5aa66ba59d08f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
