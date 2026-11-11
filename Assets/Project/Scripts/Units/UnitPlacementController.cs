@@ -129,6 +129,9 @@ public class UnitPlacementController : MonoBehaviour
 
     private bool IsPlacementValid(Vector3 position)
     {
+        // only allowed to place units on left side.
+        if (position.x > -0.5f) return false;
+
         // player has to be able to afford the unit.
         if (gameManager == null ||
             gameManager.Gold < SelectedUnit.cost)

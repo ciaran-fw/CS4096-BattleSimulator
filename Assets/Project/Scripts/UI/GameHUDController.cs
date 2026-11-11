@@ -24,6 +24,9 @@ public class GameHUDController : MonoBehaviour
     [SerializeField] private GameObject helpPanel;
     [SerializeField] private GameObject pausedOverlay;
 
+    [Header("Side Divider")]
+    [SerializeField] private GameObject sideDivider;
+
     [Header("Battle Control Buttons")]
     [SerializeField] private Button playButton;
     [SerializeField] private Button pauseButton;
@@ -132,8 +135,11 @@ public class GameHUDController : MonoBehaviour
     {
         gameManager.PlayBattle();
 
-        unitSelectionPanel.SetActive(false);
         placementController.SetPlacementEnabled(false);
+
+        // hide divider and unit selection panel when game starts.
+        sideDivider.SetActive(false);
+        unitSelectionPanel.SetActive(false);
     }
 
     private void PauseBattle()
@@ -145,9 +151,12 @@ public class GameHUDController : MonoBehaviour
     {
         gameManager.StopBattle();
 
-        unitSelectionPanel.SetActive(true);
         placementController.SetPlacementEnabled(true);
 
         camera.ResetCamera();
+
+        // show divider and unit selection panel when game ends.
+        sideDivider.SetActive(true);
+        unitSelectionPanel.SetActive(true);
     }
 }

@@ -10,8 +10,22 @@ public class CameraZoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float scroll = Mouse.current.scroll.ReadValue().y * 0.01f;
-        Camera.main.orthographicSize -= scroll * zoomSpeed;
+        float zoom = 0f;
+
+        zoom += Mouse.current.scroll.ReadValue().y * 0.01f * zoomSpeed;
+
+        // using delta time so that zoom is determined by frame rate.
+        if (Keyboard.current.numpadPlusKey.isPressed || Keyboard.current.equalsKey.isPressed)
+        {
+            zoom += zoomSpeed * 0.1f * Time.deltaTime;
+        }
+
+        if (Keyboard.current.numpadMinusKey.isPressed || Keyboard.current.minusKey.isPressed)
+        {
+            zoom -= zoomSpeed * 0.1f * Time.deltaTime;
+        }
+
+        Camera.main.orthographicSize -= zoom;
         Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, Min, Max);
     }
 }
