@@ -187,6 +187,9 @@ public class EnemyArmyBuilder : MonoBehaviour
 
             bool placed = false;
 
+            // this makes it so all placement areas are equally likely of being picked.
+            ShuffleAreas(placementAreas);
+
             foreach (Collider2D placementArea in placementAreas)
             {
                 if (TryGetRandomValidPositionInPlacementArea(placementArea, out Vector2 position))
@@ -265,5 +268,18 @@ public class EnemyArmyBuilder : MonoBehaviour
 
         position = new Vector2(0, 0);
         return false;
+    }
+
+    private void ShuffleAreas(List<Collider2D> areas)
+    {
+        for (int i = 0; i < areas.Count; i++)
+        {
+            int randomIndex = Random.Range(i, areas.Count);
+
+            // swap the two areas.
+            Collider2D temp = areas[i];
+            areas[i] = areas[randomIndex];
+            areas[randomIndex] = temp;
+        }
     }
 }
