@@ -10,8 +10,11 @@ public class UnitPlacementController : MonoBehaviour
     public UnitDefinition SelectedUnit { get; private set; }
 
     [Header("Placement Validation")]
+    // blocking layers is only units currently. however anything that should block a unit being placed on it,
+    // should be included.
     [SerializeField] private LayerMask blockingLayers;
     [SerializeField] private float placementCheckRadius = 0.5f;
+    [SerializeField] private List<Collider2D> placementAreas;
 
     [Header("Preview Colours")]
     [SerializeField] private Color validPreviewColor = new Color(0f, 1f, 0f, 0.5f);
@@ -130,23 +133,36 @@ public class UnitPlacementController : MonoBehaviour
     private bool IsPlacementValid(Vector3 position)
     {
         // only allowed to place units on left side.
+        // this is not really neccassary if placement areas are setup correctly,
+        // just in case i'll keep this here though.
         if (position.x > -0.5f) return false;
 
-        // player has to be able to afford the unit.
-        if (gameManager == null ||
-            gameManager.Gold < SelectedUnit.cost)
-        {
-            return false;
-        }
+        // must be inside an allowed placement area.
+        if (!IsInsidePlacementArea(position)) return false;
 
-        // checking if the position is over a collider.
+        // player has to be able to afford the unit.
+        if (gameManager == null || gameManager.Gold < SelectedUnit.cost) return false;
+
+        // checking if the position is over another unit or object that would block placement.
         Collider2D overlap = Physics2D.OverlapCircle(
             position,
             placementCheckRadius,
             blockingLayers
         );
 
+        // if overlap is equal to null that means it was not overlapping with anything,
+        // otherwise overlap would be equal to a Collider2D and this would then return false.
         return overlap == null;
+    }
+
+    private bool IsInsidePlacementArea(Vector3 position)
+    {
+        foreach (Collider2D placementArea in placementAreas)
+        {
+            if (placementArea.OverlapPoint(position)) return true;
+        }
+
+        return false;
     }
 
     // ---------------------- REMOVAL ------------------------------
