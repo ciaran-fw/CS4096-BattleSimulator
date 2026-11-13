@@ -462,6 +462,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   placementCheckRadius: 0.5
+  placementAreas: []
   validPreviewColor: {r: 0, g: 1, b: 0, a: 0.5}
   invalidPreviewColor: {r: 1, g: 0, b: 0, a: 0.5}
 --- !u!1 &4516085069360697376
@@ -499,6 +500,7 @@ Transform:
   - {fileID: 6207606109680373351}
   - {fileID: 3224104183733381330}
   - {fileID: 2070539695371173301}
+  - {fileID: 8046766933426791819}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7638600140293370743
@@ -689,6 +691,63 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!1 &9056454451135218952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8046766933426791819}
+  - component: {fileID: 8902889349835059981}
+  m_Layer: 0
+  m_Name: EnemyArmyBuilder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8046766933426791819
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9056454451135218952}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.53347, y: -0.15141, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2231918074950407659}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8902889349835059981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9056454451135218952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc05361a76269794585608813d95d288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyArmyBuilder
+  unitDefinitions:
+  - {fileID: 11400000, guid: fadaefe73b2e02e44b3d97d1b53d8ee4, type: 2}
+  - {fileID: 11400000, guid: f35a890b5184ff645848ab5bac5f0d35, type: 2}
+  - {fileID: 11400000, guid: 37009a4ebd6deae45b045698d4b13a81, type: 2}
+  - {fileID: 11400000, guid: bf971a397457761439150129e297cae6, type: 2}
+  goldAmount: 0
+  maxUnits: 0
+  meleeWeight: 50
+  rangedWeight: 40
+  supportWeight: 10
+  expenisiveCheapSeperator: 300
+  expensiveUnitWeight: 20
+  cheapUnitWeight: 80
 --- !u!1001 &8884155649966289819
 PrefabInstance:
   m_ObjectHideFlags: 0

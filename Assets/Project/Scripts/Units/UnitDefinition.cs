@@ -7,6 +7,7 @@ public class UnitDefinition : ScriptableObject
     public string unitName;
     public Sprite icon;
     public int cost;
+    public UnitRole role;
 
     [Header("Unit Prefab")]
     public GameObject prefab;
