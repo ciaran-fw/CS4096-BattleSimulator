@@ -46,6 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitSelectionController
   units:
   - {fileID: 11400000, guid: fadaefe73b2e02e44b3d97d1b53d8ee4, type: 2}
+  - {fileID: 11400000, guid: f35a890b5184ff645848ab5bac5f0d35, type: 2}
+  - {fileID: 11400000, guid: 37009a4ebd6deae45b045698d4b13a81, type: 2}
+  - {fileID: 11400000, guid: bf971a397457761439150129e297cae6, type: 2}
   cardPrefab: {fileID: 5992016863646383224, guid: fcdfd9e56f4e8ad4f8a2f39ea5d9905c, type: 3}
   cardContainer: {fileID: 9218860568034312879}
   placementController: {fileID: 1187945563165734487}
@@ -745,9 +748,17 @@ MonoBehaviour:
   meleeWeight: 50
   rangedWeight: 40
   supportWeight: 10
-  expenisiveCheapSeperator: 300
+  expensiveCheapSeperator: 300
   expensiveUnitWeight: 20
   cheapUnitWeight: 80
+  meleePlacementAreas: []
+  rangedPlacementAreas: []
+  supportPlacementAreas: []
+  blockingLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  placementCheckRadius: 0.5
+  maxPlacementAttempts: 10
 --- !u!1001 &8884155649966289819
 PrefabInstance:
   m_ObjectHideFlags: 0

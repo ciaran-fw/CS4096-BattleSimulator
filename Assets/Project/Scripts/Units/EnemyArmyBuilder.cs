@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System.Text;
+using Unity.ProjectAuditor.Editor;
 using UnityEngine;
 
 public class EnemyArmyBuilder : MonoBehaviour
 {
+    [Header("Generation")]
+
     [Header("Available Units")]
     [SerializeField] private List<UnitDefinition> unitDefinitions;
 
@@ -21,59 +24,82 @@ public class EnemyArmyBuilder : MonoBehaviour
     [Header("Cost Preferences")]
     // what do we consider expensive and cheap. 300 here represents that any unit >= 300 is expensive,
     // anything < will be considered cheap.
-    [SerializeField] private int expenisiveCheapSeperator = 300;
+    [SerializeField] private int expensiveCheapSeperator = 300;
     // same as above these are not percentages.
     [SerializeField] private float expensiveUnitWeight = 20f;
     [SerializeField] private float cheapUnitWeight = 80f;
 
-    private List<UnitDefinition> unitChoices = new List<UnitDefinition>();
-    private int remainingGold;
+    [Header("Placement")]
+
+    [Header("Placement Areas")]
+    [SerializeField] private List<Collider2D> meleePlacementAreas;
+    [SerializeField] private List<Collider2D> rangedPlacementAreas;
+    [SerializeField] private List<Collider2D> supportPlacementAreas;
+
+    [Header("Placement Settings")]
+    [SerializeField] private LayerMask blockingLayers;
+    [SerializeField] private float placementCheckRadius = 0.5f;
+    [SerializeField] private int maxPlacementAttempts = 10;
+
 
     private void Start()
     {
-        GenerateArmy();
-    }
+        List<UnitDefinition> enemyArmy = GenerateArmy();
+        List<UnitDefinition> unplacedUnits = TryPlaceArmy(enemyArmy);
 
-    // ----------------- ARMY GENERATION/SELECCTION -----------------
-
-    public void GenerateArmy()
-    {
-        unitChoices.Clear();
-        remainingGold = goldAmount;
-
-        while (unitChoices.Count < maxUnits)
-        {
-            UnitDefinition selectedUnit = SelectRandomUnit();
-
-            // we will get null if no affordable units were found.
-            if (selectedUnit == null) break;
-
-            unitChoices.Add(selectedUnit);
-            remainingGold -= selectedUnit.cost;
-        }
-
-        // debug - prints chosen units.
-
+        // Debug to show generated army and what units where unable to be placed.
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.Append("Generated army: \n");
+        stringBuilder.Append($"Generated army (size = {enemyArmy.Count}): \n");
 
-        foreach(UnitDefinition unit in unitChoices)
+        foreach (UnitDefinition unit in enemyArmy)
         {
             stringBuilder.Append($"Unit name: {unit.unitName}, Unit cost: {unit.cost}, Unit role: {unit.role} \n");
         }
 
-        stringBuilder.Append($"\nRemaining gold: {remainingGold}\n");
+        Debug.Log(stringBuilder.ToString());
+
+
+        stringBuilder.Clear();
+        stringBuilder.Append($"Unplaced units (size = {unplacedUnits.Count}): \n");
+
+        foreach (UnitDefinition unit in unplacedUnits)
+        {
+            stringBuilder.Append($"Unit name: {unit.unitName}, Unit cost: {unit.cost}, Unit role: {unit.role} \n");
+        }
 
         Debug.Log(stringBuilder.ToString());
     }
 
-    private UnitDefinition SelectRandomUnit()
+
+    // ----------------- ARMY GENERATION/SELECCTION -----------------
+
+    public List<UnitDefinition> GenerateArmy()
+    {
+        List<UnitDefinition> chosenUnits = new();
+
+        int remainingGold = goldAmount;
+
+        while (chosenUnits.Count < maxUnits)
+        {
+            UnitDefinition selectedUnit = SelectRandomUnit(remainingGold);
+
+            // we will get null if no affordable units were found.
+            if (selectedUnit == null) break;
+
+            chosenUnits.Add(selectedUnit);
+            remainingGold -= selectedUnit.cost;
+        }
+
+        return chosenUnits;
+    }
+
+    private UnitDefinition SelectRandomUnit(int remainingGold)
     {
         // using two lists could use hashmap. whatever unit is at index i in affordable units,
         // has a corresponding weigth in selection weights at position i.
-        List<UnitDefinition> affordableUnits = new List<UnitDefinition>();
-        List<float> selectionWeights = new List<float>();
+        List<UnitDefinition> affordableUnits = new();
+        List<float> selectionWeights = new();
 
         float totalWeight = 0f;
 
@@ -114,7 +140,8 @@ public class EnemyArmyBuilder : MonoBehaviour
         }
 
         // just incase return last unit in list.
-        return affordableUnits[affordableUnits.Count - 1];
+        // ^1 is the same as affordableUnits.Count - 1.
+        return affordableUnits[^1];
     }
 
     private float GetRoleWeight(UnitRole role)
@@ -127,27 +154,116 @@ public class EnemyArmyBuilder : MonoBehaviour
         {
             return rangedWeight;
         }
-        else
+        else if (role == UnitRole.Support)
         {
             return supportWeight;
+        }
+        else
+        {
+            return 0f;
         }
     }
 
     private float GetCostWeight(int cost)
     {
-        if (cost >= expenisiveCheapSeperator) return expensiveUnitWeight;
+        if (cost >= expensiveCheapSeperator) return expensiveUnitWeight;
 
         return cheapUnitWeight;
     }
 
-    // 1. pick units based on amount of gold.
-    // settings to decide what kind of units it prefers: 30% ranged, 30% melee, 40% support etc.
-    // how much units it likes swarming or just a few strong ones.
+    // ----------------- ARMY PLACEMENT -----------------
 
-    // 2. decide where each unit should go based on type (range/melee).
-    // formation zones? (collider 2ds) decide where units are placed.
-    // have few melee zones, ranged zones, support rows?
-    // have formation preferences row, arrow, line etc?
+    private List<UnitDefinition> TryPlaceArmy(List<UnitDefinition> unitsToPlace)
+    {
+        List<UnitDefinition> unplacedUnits = new();
 
-    // 3. create the units and place on map
+        // we go through each unit and try to place it.
+        foreach (UnitDefinition unitDefinition in unitsToPlace)
+        {
+            List<Collider2D> placementAreas = GetPlacementAreas(unitDefinition.role);
+
+            // if for some reason there is no areas set we will skip.
+            if (placementAreas == null || placementAreas.Count == 0) continue;
+
+            bool placed = false;
+
+            foreach (Collider2D placementArea in placementAreas)
+            {
+                if (TryGetRandomValidPositionInPlacementArea(placementArea, out Vector2 position))
+                {
+                    GameObject unit = Instantiate(unitDefinition.prefab, position, Quaternion.identity);
+
+                    Unit unitScript = unit.GetComponent<Unit>();
+
+                    unitScript.Initialize(unitDefinition);
+
+                    placed = true;
+                    break;
+                }
+            }
+
+            if (!placed)
+            {
+                unplacedUnits.Add(unitDefinition);
+            }
+        }
+
+        return unplacedUnits;
+    }
+
+    private List<Collider2D> GetPlacementAreas(UnitRole role)
+    {
+        if (role == UnitRole.Melee)
+        {
+            return meleePlacementAreas;
+        }
+        else if (role == UnitRole.Ranged)
+        {
+            return rangedPlacementAreas;
+        }
+        else if (role == UnitRole.Support)
+        {
+            return supportPlacementAreas;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    // using out to allow us to get two outputs. i want to know if position was found and also get that position.
+    private bool TryGetRandomValidPositionInPlacementArea(Collider2D placementArea, out Vector2 position)
+    {
+        // we only try and place a certain number of times before stopping so that we don't get stuck in infinite loop.
+        for (int i = 0; i < maxPlacementAttempts; i++)
+        {
+            Bounds bounds = placementArea.bounds;
+
+            float x = Random.Range(bounds.min.x, bounds.max.x);
+            float y = Random.Range(bounds.min.y, bounds.max.y);
+
+            // this gives us a random position inside the areas bounds,
+            // however this does not guarantee that its in the actual area.
+            // for a circle or polygon the bounds can be outside the area.
+            Vector2 randomPosition = new Vector2(x, y);
+
+            // making sure its actually in area.
+            if (!placementArea.OverlapPoint(randomPosition)) continue;
+
+            // making sure that its not overlapping other unit.
+            Collider2D overlap = Physics2D.OverlapCircle(
+                randomPosition,
+                placementCheckRadius,
+                blockingLayers
+            );
+
+            if (overlap != null) continue;
+
+            position = randomPosition;
+            return true;
+        }
+
+        position = new Vector2(0, 0);
+        return false;
+    }
 }
