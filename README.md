@@ -1,13 +1,15 @@
+Left todo:
+
 Daniel:
-> Finite State Machine
-> Idle, Moving, Attacking and Dead states
-> Transitions between states
-> Implement combat mechanics (health, damage and attacking)
-> Implement unit prefabs and scriptable objects
-> Add unit animations and combat effects?
+  o Finite State Machine
+  o Idle, Moving, Attacking and Dead states
+  o Transitions between states
+  o Implement combat mechanics (health, damage and attacking)
+  o Implement unit prefabs and scriptable objects
+  o Add unit animations and combat effects?
 
 Ciarán:
-> Implement enemy commander strategy (balanced, melee-focused, ranged-focused)
-> Unit selection and movement. Enemy unit movement.
-> Unit pathfinding.
-> Connect all systems to game manager. to create complete game loop.
+  o Implement enemy commander strategy (balanced, melee-focused, ranged-focused)
+  o Unit selection and movement. Enemy unit movement.
+  o Unit pathfinding.
+  o Connect all systems to game manager. to create complete game loop.
