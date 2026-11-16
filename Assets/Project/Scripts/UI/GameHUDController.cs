@@ -39,6 +39,9 @@ public class GameHUDController : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private CameraMovement camera;
 
+    [Header("Enemy AI Commander")]
+    [SerializeField] private EnemyAICommander enemyCommander;
+
     private void Awake()
     {
         homeButton.onClick.AddListener(GoHome);
@@ -133,13 +136,23 @@ public class GameHUDController : MonoBehaviour
 
     private void PlayBattle()
     {
-        gameManager.PlayBattle();
+        if (gameManager.BattlePaused)
+        {
+            gameManager.PlayBattle();
+        }
+        else
+        {
+            gameManager.PlayBattle();
 
-        placementController.SetPlacementEnabled(false);
+            placementController.SetPlacementEnabled(false);
 
-        // hide divider and unit selection panel when game starts.
-        sideDivider.SetActive(false);
-        unitSelectionPanel.SetActive(false);
+            // hide divider and unit selection panel when game starts.
+            sideDivider.SetActive(false);
+            unitSelectionPanel.SetActive(false);
+
+            // generate enemy army.
+            enemyCommander.GenerateCounterArmy();
+        }
     }
 
     private void PauseBattle()
@@ -158,5 +171,8 @@ public class GameHUDController : MonoBehaviour
         // show divider and unit selection panel when game ends.
         sideDivider.SetActive(true);
         unitSelectionPanel.SetActive(true);
+
+        // clear enemy army.
+        enemyCommander.ClearArmy();
     }
 }

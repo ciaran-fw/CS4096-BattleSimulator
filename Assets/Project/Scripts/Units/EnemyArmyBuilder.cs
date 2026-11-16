@@ -14,13 +14,6 @@ public class EnemyArmyBuilder : MonoBehaviour
     [SerializeField] private int goldAmount;
     [SerializeField] private int maxUnits;
 
-    [Header("Role Preferences")]
-    // these are relative weigths not percentages. so you don't have to have to have them all add up,
-    // to same value or have between certain range. I just like to have 0-100 as its easier to visualize.
-    [SerializeField] private float meleeWeight = 50f;
-    [SerializeField] private float rangedWeight = 40f;
-    [SerializeField] private float supportWeight = 10f;
-
     [Header("Cost Preferences")]
     // what do we consider expensive and cheap. 300 here represents that any unit >= 300 is expensive,
     // anything < will be considered cheap.
@@ -41,36 +34,54 @@ public class EnemyArmyBuilder : MonoBehaviour
     [SerializeField] private float placementCheckRadius = 0.5f;
     [SerializeField] private int maxPlacementAttempts = 10;
 
+    // these are relative weigths not percentages. so you don't have to have to have them all add up,
+    // to same value or have between certain range. I just like to have 0-100 as its easier to visualize.
+    private float meleeWeight = 50f;
+    private float rangedWeight = 40f;
+    private float supportWeight = 10f;
 
-    private void Start()
+    private List<Unit> enemyUnits = new();
+
+    public void CreateArmy(bool debug)
     {
         List<UnitDefinition> enemyArmy = GenerateArmy();
         List<UnitDefinition> unplacedUnits = TryPlaceArmy(enemyArmy);
 
-        // Debug to show generated army and what units where unable to be placed.
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.Append($"Generated army (size = {enemyArmy.Count}): \n");
-
-        foreach (UnitDefinition unit in enemyArmy)
+        if (debug)
         {
-            stringBuilder.Append($"Unit name: {unit.unitName}, Unit cost: {unit.cost}, Unit role: {unit.role} \n");
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append($"Generated army (size = {enemyArmy.Count}): \n");
+
+            foreach (UnitDefinition unit in enemyArmy)
+            {
+                stringBuilder.Append($"Unit name: {unit.unitName}, Unit cost: {unit.cost}, Unit role: {unit.role} \n");
+            }
+
+            Debug.Log(stringBuilder.ToString());
+
+
+            stringBuilder.Clear();
+            stringBuilder.Append($"Unplaced units (size = {unplacedUnits.Count}): \n");
+
+            foreach (UnitDefinition unit in unplacedUnits)
+            {
+                stringBuilder.Append($"Unit name: {unit.unitName}, Unit cost: {unit.cost}, Unit role: {unit.role} \n");
+            }
+
+            Debug.Log(stringBuilder.ToString());
         }
-
-        Debug.Log(stringBuilder.ToString());
-
-
-        stringBuilder.Clear();
-        stringBuilder.Append($"Unplaced units (size = {unplacedUnits.Count}): \n");
-
-        foreach (UnitDefinition unit in unplacedUnits)
-        {
-            stringBuilder.Append($"Unit name: {unit.unitName}, Unit cost: {unit.cost}, Unit role: {unit.role} \n");
-        }
-
-        Debug.Log(stringBuilder.ToString());
     }
 
+    public void ClearArmy()
+    {
+        foreach (Unit unit in enemyUnits)
+        {
+            Destroy(unit.gameObject);
+        }
+
+        enemyUnits.Clear();
+    }
 
     // ----------------- ARMY GENERATION/SELECCTION -----------------
 
@@ -200,6 +211,9 @@ public class EnemyArmyBuilder : MonoBehaviour
 
                     unitScript.Initialize(unitDefinition);
 
+                    // keep track of enemy army.
+                    enemyUnits.Add(unitScript);
+
                     placed = true;
                     break;
                 }
@@ -282,4 +296,15 @@ public class EnemyArmyBuilder : MonoBehaviour
             areas[randomIndex] = temp;
         }
     }
+
+    // ---------------------- SETUP ----------------------
+
+
+    public void SetRoleWeights(float melee, float ranged, float support)
+    {
+        meleeWeight = melee;
+        rangedWeight = ranged;
+        supportWeight = support;
+    }
+
 }

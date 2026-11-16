@@ -17,15 +17,15 @@ public class UnitPlacementController : MonoBehaviour
     [SerializeField] private List<Collider2D> placementAreas;
 
     [Header("Preview Colours")]
-    [SerializeField] private Color validPreviewColor = new Color(0f, 1f, 0f, 0.5f);
-    [SerializeField] private Color invalidPreviewColor =new Color(1f, 0f, 0f, 0.5f);
+    [SerializeField] private Color validPreviewColor = new(0f, 1f, 0f, 0.5f);
+    [SerializeField] private Color invalidPreviewColor = new(1f, 0f, 0f, 0.5f);
 
     private SpriteRenderer previewRenderer;
     private GameObject previewObject;
 
     private bool placementEnabled = true;
 
-    private readonly List<Unit> placedUnits = new List<Unit>();
+    public List<Unit> PlacedUnits { get; private set; } = new();
 
     private void Update()
     {
@@ -123,7 +123,7 @@ public class UnitPlacementController : MonoBehaviour
         unit.Initialize(SelectedUnit);
 
         // add to list to keep track for removal.
-        placedUnits.Add(unit);
+        PlacedUnits.Add(unit);
 
         // update game manager.
         gameManager.SetGold(gameManager.Gold - unit.Definition.cost);
@@ -180,9 +180,9 @@ public class UnitPlacementController : MonoBehaviour
         Unit unit = selected.GetComponentInParent<Unit>();
 
         // just incase.
-        if (unit == null || !placedUnits.Contains(unit)) return;
+        if (unit == null || !PlacedUnits.Contains(unit)) return;
 
-        placedUnits.Remove(unit);
+        PlacedUnits.Remove(unit);
 
         Destroy(unit.gameObject);
 
@@ -195,13 +195,13 @@ public class UnitPlacementController : MonoBehaviour
     {
         int removedCount = 0;
 
-        foreach (Unit unit in placedUnits)
+        foreach (Unit unit in PlacedUnits)
         {
             Destroy(unit.gameObject);
             removedCount++;
         }
 
-        placedUnits.Clear();
+        PlacedUnits.Clear();
 
         // update game manager.
         gameManager.SetGold(gameManager.StartingGold);
