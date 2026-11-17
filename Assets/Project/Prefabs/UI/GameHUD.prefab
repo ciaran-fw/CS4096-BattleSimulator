@@ -1067,7 +1067,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1.5408, y: 17.3069}
-  m_SizeDelta: {x: 1866.0879, y: 268.6683}
+  m_SizeDelta: {x: 1209.5366, y: 268.6683}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8575860666144824988
 MonoBehaviour:
@@ -1087,7 +1087,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: -1200
+  m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1666,6 +1666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   gameManager: {fileID: 0}
+  battleController: {fileID: 0}
   homeButton: {fileID: 7760319354926320199}
   settingsButton: {fileID: 6800046959002903583}
   helpButton: {fileID: 5878913423348785016}
@@ -1675,15 +1676,9 @@ MonoBehaviour:
   settingsPanel: {fileID: 5896534962595458889}
   helpPanel: {fileID: 8047959507149888354}
   pausedOverlay: {fileID: 2036082924747512355}
-  sideDivider: {fileID: 0}
   playButton: {fileID: 3729413481798027390}
   pauseButton: {fileID: 3268640120824213891}
   stopButton: {fileID: 7381316260723188845}
-  unitSelectionPanel: {fileID: 8350363629627942170}
-  placementController: {fileID: 0}
-  selectionController: {fileID: 0}
-  camera: {fileID: 0}
-  enemyCommander: {fileID: 0}
 --- !u!1 &2036082924747512355
 GameObject:
   m_ObjectHideFlags: 0
@@ -4360,7 +4355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6288951686037437317
 RectTransform:
   m_ObjectHideFlags: 0
