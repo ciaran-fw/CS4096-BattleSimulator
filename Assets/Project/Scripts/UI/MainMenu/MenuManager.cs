@@ -1,11 +1,13 @@
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
     [Header("Menu Panels")]
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private GameObject settingsPanel;
-    [SerializeField] private GameObject levelSelectPanel;
+    [SerializeField] private GameObject mapSelectPanel;
 
     private void Start()
     {
@@ -17,25 +19,37 @@ public class MenuManager : MonoBehaviour
     {
         mainMenuPanel.SetActive(true);
         settingsPanel.SetActive(false);
-        levelSelectPanel.SetActive(false);
+        mapSelectPanel.SetActive(false);
     }
 
     public void ShowSettingsMenu()
     {
         mainMenuPanel.SetActive(false);
         settingsPanel.SetActive(true);
-        levelSelectPanel.SetActive(false);
+        mapSelectPanel.SetActive(false);
     }
 
-    public void ShowLevelSelectMenu()
+    public void ShowMapSelectMenu()
     {
         mainMenuPanel.SetActive(false);
         settingsPanel.SetActive(false);
-        levelSelectPanel.SetActive(true);
+        mapSelectPanel.SetActive(true);
     }
 
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void LoadMap(string sceneName)
+    {
+        if (!SceneManager.GetSceneByName(sceneName).IsValid())
+        {
+            SceneManager.LoadScene(sceneName);
+        }
+        else
+        {
+            Debug.Log($"No scene exists with name ({sceneName})");
+        }
     }
 }
