@@ -8,6 +8,9 @@ public class GameHUDController : MonoBehaviour
     [Header("Game Manager")]
     [SerializeField] private GameManager gameManager;
 
+    [Header("Battle Controller")]
+    [SerializeField] private BattleController battleController;
+
     [Header("Navigation Buttons")]
     [SerializeField] private Button homeButton;
     [SerializeField] private Button settingsButton;
@@ -23,24 +26,11 @@ public class GameHUDController : MonoBehaviour
     [SerializeField] private GameObject helpPanel;
     [SerializeField] private GameObject pausedOverlay;
 
-    [Header("Side Divider")]
-    [SerializeField] private GameObject sideDivider;
-
     [Header("Battle Control Buttons")]
     [SerializeField] private Button playButton;
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button stopButton;
 
-    [Header("Unit Placement and Selection")]
-    [SerializeField] private GameObject unitSelectionPanel;
-    [SerializeField] private UnitPlacementController placementController;
-    [SerializeField] private UnitSelectionController selectionController;
-
-    [Header("Camera")]
-    [SerializeField] private CameraMovement camera;
-
-    [Header("Enemy AI Commander")]
-    [SerializeField] private EnemyAICommander enemyCommander;
 
     private void Awake()
     {
@@ -48,24 +38,14 @@ public class GameHUDController : MonoBehaviour
         settingsButton.onClick.AddListener(ToggleSettings);
         helpButton.onClick.AddListener(ToggleHelp);
 
-        playButton.onClick.AddListener(PlayBattle);
-        pauseButton.onClick.AddListener(PauseBattle);
-        stopButton.onClick.AddListener(StopBattle);
-
-        settingsPanel.SetActive(false);
-        helpPanel.SetActive(false);
-
-        UpdateInformation();
-        UpdateBattleButtons();
+        playButton.onClick.AddListener(battleController.PlayBattle);
+        pauseButton.onClick.AddListener(battleController.PauseBattle);
+        stopButton.onClick.AddListener(battleController.StopBattle);
     }
 
     private void Update()
     {
-        if (gameManager == null)
-        {
-            Debug.Log("Game manager not set!");
-            return;
-        }
+        if (gameManager == null) return;
 
         UpdateInformation();
         UpdateBattleButtons();
@@ -113,7 +93,10 @@ public class GameHUDController : MonoBehaviour
 
         settingsPanel.SetActive(showSettings);
 
-        AudioManager.Instance?.PlayPanelOpen();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayPanelOpen();
+        }
 
         if (showSettings)
         {
@@ -126,57 +109,15 @@ public class GameHUDController : MonoBehaviour
         bool showHelp = !helpPanel.activeSelf;
 
         helpPanel.SetActive(showHelp);
-        AudioManager.Instance?.PlayPanelOpen();
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayPanelOpen();
+        }
 
         if (showHelp)
         {
             settingsPanel.SetActive(false);
         }
-    }
-
-    private void PlayBattle()
-    {
-        if (gameManager.BattlePaused)
-        {
-            gameManager.PlayBattle();
-        }
-        else
-        {
-            gameManager.PlayBattle();
-
-            // turn placement off and selection on.
-            placementController.SetPlacementEnabled(false);
-            selectionController.SetSelectionEnabled(true);
-
-            // hide divider and unit selection panel when game starts.
-            sideDivider.SetActive(false);
-            unitSelectionPanel.SetActive(false);
-
-            // generate enemy army.
-            enemyCommander.GenerateCounterArmy();
-        }
-    }
-
-    private void PauseBattle()
-    {
-        gameManager.PauseBattle();
-    }
-
-    private void StopBattle()
-    {
-        gameManager.StopBattle();
-
-        // turn placement on and selection off.
-        placementController.SetPlacementEnabled(true);
-        selectionController.SetSelectionEnabled(false);
-
-        camera.ResetCamera();
-
-        // show divider and unit selection panel when game ends.
-        sideDivider.SetActive(true);
-        unitSelectionPanel.SetActive(true);
-
-        // clear enemy army.
-        enemyCommander.ClearArmy();
     }
 }
