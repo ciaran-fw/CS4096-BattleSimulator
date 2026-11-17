@@ -209,7 +209,7 @@ public class EnemyArmyBuilder : MonoBehaviour
 
                     Unit unitScript = unit.GetComponent<Unit>();
 
-                    unitScript.Initialize(unitDefinition);
+                    unitScript.Initialize(unitDefinition, UnitTeam.Enemy);
 
                     // keep track of enemy army.
                     enemyUnits.Add(unitScript);

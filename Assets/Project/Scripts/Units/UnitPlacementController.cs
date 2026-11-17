@@ -12,7 +12,7 @@ public class UnitPlacementController : MonoBehaviour
     [Header("Placement Validation")]
     // blocking layers is only units currently. however anything that should block a unit being placed on it,
     // should be included.
-    [SerializeField] private LayerMask blockingLayers;
+    [SerializeField] private LayerMask unitLayer;
     [SerializeField] private float placementCheckRadius = 0.5f;
     [SerializeField] private List<Collider2D> placementAreas;
 
@@ -120,7 +120,7 @@ public class UnitPlacementController : MonoBehaviour
         );
 
         Unit unit = instance.GetComponent<Unit>();
-        unit.Initialize(SelectedUnit);
+        unit.Initialize(SelectedUnit, UnitTeam.Player);
 
         // add to list to keep track for removal.
         PlacedUnits.Add(unit);
@@ -143,11 +143,11 @@ public class UnitPlacementController : MonoBehaviour
         // player has to be able to afford the unit.
         if (gameManager == null || gameManager.Gold < SelectedUnit.cost) return false;
 
-        // checking if the position is over another unit or object that would block placement.
+        // checking if the position is over another unit that would block placement.
         Collider2D overlap = Physics2D.OverlapCircle(
             position,
             placementCheckRadius,
-            blockingLayers
+            unitLayer
         );
 
         // if overlap is equal to null that means it was not overlapping with anything,

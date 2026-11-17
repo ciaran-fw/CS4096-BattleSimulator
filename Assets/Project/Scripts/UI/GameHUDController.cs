@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -32,9 +31,10 @@ public class GameHUDController : MonoBehaviour
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button stopButton;
 
-    [Header("Unit Placement")]
+    [Header("Unit Placement and Selection")]
     [SerializeField] private GameObject unitSelectionPanel;
     [SerializeField] private UnitPlacementController placementController;
+    [SerializeField] private UnitSelectionController selectionController;
 
     [Header("Camera")]
     [SerializeField] private CameraMovement camera;
@@ -144,7 +144,9 @@ public class GameHUDController : MonoBehaviour
         {
             gameManager.PlayBattle();
 
+            // turn placement off and selection on.
             placementController.SetPlacementEnabled(false);
+            selectionController.SetSelectionEnabled(true);
 
             // hide divider and unit selection panel when game starts.
             sideDivider.SetActive(false);
@@ -164,7 +166,9 @@ public class GameHUDController : MonoBehaviour
     {
         gameManager.StopBattle();
 
+        // turn placement on and selection off.
         placementController.SetPlacementEnabled(true);
+        selectionController.SetSelectionEnabled(false);
 
         camera.ResetCamera();
 

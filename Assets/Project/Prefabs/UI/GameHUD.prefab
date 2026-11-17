@@ -809,11 +809,22 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Left Click = Place unit.
+  m_text: 'Before Battle:
+
+    Left Click = Place unit.
 
     Right Click = Remove unit.
 
-    C = Clear all units.'
+    C = Clear all units.
+
+
+    During Battle:
+
+    Left Click = Select unit.
+
+    Left Click and Drag = Select multiple units.
+
+    Hold shift while selecting units to add them to selection.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 081619b03e74d734eb8fd9333f36c94c, type: 2}
   m_sharedMaterial: {fileID: 1493739923914571752, guid: 081619b03e74d734eb8fd9333f36c94c, type: 2}
@@ -1664,12 +1675,15 @@ MonoBehaviour:
   settingsPanel: {fileID: 5896534962595458889}
   helpPanel: {fileID: 8047959507149888354}
   pausedOverlay: {fileID: 2036082924747512355}
+  sideDivider: {fileID: 0}
   playButton: {fileID: 3729413481798027390}
   pauseButton: {fileID: 3268640120824213891}
   stopButton: {fileID: 7381316260723188845}
   unitSelectionPanel: {fileID: 8350363629627942170}
   placementController: {fileID: 0}
+  selectionController: {fileID: 0}
   camera: {fileID: 0}
+  enemyCommander: {fileID: 0}
 --- !u!1 &2036082924747512355
 GameObject:
   m_ObjectHideFlags: 0
@@ -4346,7 +4360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6288951686037437317
 RectTransform:
   m_ObjectHideFlags: 0
