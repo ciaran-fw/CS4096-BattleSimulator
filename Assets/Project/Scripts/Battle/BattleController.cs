@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleController : MonoBehaviour
@@ -17,6 +18,10 @@ public class BattleController : MonoBehaviour
     [Header("Enemy AI")]
     [SerializeField] private EnemyAICommander enemyCommander;
 
+    private Dictionary<Unit, Vector3> startingPositions = new();
+
+    // ---------------------- BATTLE CONTROL ----------------------
+
     public void PlayBattle()
     {
         // if game is paused just resume battle.
@@ -28,6 +33,7 @@ public class BattleController : MonoBehaviour
 
         if (gameManager.BattleRunning) return;
 
+        RecordStartingPositions();
 
         enemyCommander.GenerateCounterArmy();
 
@@ -51,6 +57,8 @@ public class BattleController : MonoBehaviour
     {
         gameManager.StopBattle();
 
+        ResetStartingPositions();
+
         // turn unit placement on and unit selection off.
         placementController.SetPlacementEnabled(true);
         selectionController.SetSelectionEnabled(false);
@@ -62,5 +70,29 @@ public class BattleController : MonoBehaviour
         unitSelectionPanel.SetActive(true);
 
         enemyCommander.ClearArmy();
+    }
+
+    // ---------------------- ARMY PERSISTANCE ----------------------
+
+    private void RecordStartingPositions()
+    {
+        startingPositions.Clear();
+
+        foreach (Unit unit in placementController.PlacedUnits)
+        {
+            if (unit == null) continue;
+
+            startingPositions.Add(unit, unit.transform.position);
+        }
+    }
+
+    private void ResetStartingPositions()
+    {
+        foreach (KeyValuePair<Unit, Vector3> pair in startingPositions)
+        {
+            Unit unit = pair.Key;
+
+            unit.ResetMovement(pair.Value);
+        }
     }
 }

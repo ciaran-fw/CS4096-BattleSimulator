@@ -14,7 +14,7 @@ public class UnitSelectionController : MonoBehaviour
     [Header("Unit Layer")]
     [SerializeField] private LayerMask unitLayer;
 
-    private readonly List<Unit> selectedUnits = new();
+    public readonly List<Unit> SelectedUnits = new();
 
     private bool selectionEnabled = false;
 
@@ -115,7 +115,7 @@ public class UnitSelectionController : MonoBehaviour
 
             if (unit.Team != UnitTeam.Player) continue;
 
-            if (!selectedUnits.Contains(unit))
+            if (!SelectedUnits.Contains(unit))
             {
                 SelectUnit(unit);
             }
@@ -126,21 +126,21 @@ public class UnitSelectionController : MonoBehaviour
     private void SelectUnit(Unit unit)
     {
         // if unit is already in selection dont select it again.
-        if (!selectedUnits.Contains(unit))
+        if (!SelectedUnits.Contains(unit))
         {
-            selectedUnits.Add(unit);
+            SelectedUnits.Add(unit);
             unit.SetSelected(true);
         }
     }
 
     private void DeselectAllUnits()
     {
-        foreach (Unit unit in selectedUnits)
+        foreach (Unit unit in SelectedUnits)
         {
             if (unit != null) unit.SetSelected(false);
         }
 
-        selectedUnits.Clear();
+        SelectedUnits.Clear();
     }
 
     // ------------------------------ SELECTION BOX ------------------------------
