@@ -54412,7 +54412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8902889349835059981, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
       propertyPath: unitDefinitions.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8902889349835059981, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
       propertyPath: 'unitDefinitions.Array.data[2]'
