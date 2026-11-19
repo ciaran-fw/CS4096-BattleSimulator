@@ -44,12 +44,22 @@ public class Unit : MonoBehaviour
 
     public void MoveTo(Vector2 positionToMoveTo)
     {
+        if (CurrentHealth <= 0) return;
+
         destination = positionToMoveTo;
         isMoving = true;
     }
 
     private void MoveToDestination()
     {
+        float distToDestination = Vector2.Distance(transform.position, destination);
+
+        if (distToDestination < 1.75f)
+        {
+            isMoving = false;
+            return;
+        }
+
         transform.position = Vector2.MoveTowards(
             transform.position,
             destination,
@@ -72,8 +82,15 @@ public class Unit : MonoBehaviour
         isMoving = false;
     }
 
+
+    // ---------------------- GAMEPLAY ----------------------
     public void TakeDamage(float damageAmount)
     {
+        if(CurrentHealth <= 0)
+        {
+            return;
+        }
+
         CurrentHealth -= damageAmount;
 
         if (CurrentHealth <= 0)
@@ -82,8 +99,13 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
-        Destroy(gameObject);
+        isMoving = false;
+        SetSelected(false);
+        Collider2D col = GetComponent<Collider2D>();
+        col.enabled = false;
+        transform.rotation = Quaternion.Euler(0, 0, 90f);
+        Destroy(gameObject, 3f);
     }
 }

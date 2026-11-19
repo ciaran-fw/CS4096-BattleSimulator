@@ -17,3 +17,8 @@ MonoBehaviour:
   cost: 100
   role: 0
   prefab: {fileID: 2913909996086993150, guid: 53c502c0e013db04cb9f60a33a0ee000, type: 3}
+  health: 300
+  damage: 20
+  range: 1.5
+  attack_speed: 1
+  moveSpeed: 5
