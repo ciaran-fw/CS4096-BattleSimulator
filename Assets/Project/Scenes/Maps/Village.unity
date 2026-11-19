@@ -54412,20 +54412,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8902889349835059981, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
       propertyPath: unitDefinitions.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8902889349835059981, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
       propertyPath: 'unitDefinitions.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: bf971a397457761439150129e297cae6, type: 2}
     - target: {fileID: 8902889349835059981, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
-<<<<<<< HEAD
       propertyPath: 'unitDefinitions.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 37009a4ebd6deae45b045698d4b13a81, type: 2}
     - target: {fileID: 8902889349835059981, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
-=======
->>>>>>> 7f755a11982d9c21dd8a7da7392abb0eee1c81d0
       propertyPath: meleePlacementAreas.Array.size
       value: 2
       objectReference: {fileID: 0}

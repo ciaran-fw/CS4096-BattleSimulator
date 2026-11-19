@@ -34,7 +34,7 @@ public class PathfindingGrid : MonoBehaviour
     private float NodeSize => nodeRadius * 2f;
 
     private Vector2 GridCentrePosition => (gridStartPosition + gridEndPosition) / 2f;
-    private Vector2 GridSize => new(gridSizeX * NodeSize, gridSizeY * NodeSize);
+    private Vector2 GridSize => gridEndPosition - gridStartPosition;
 
 
     private void Start()
@@ -114,16 +114,12 @@ public class PathfindingGrid : MonoBehaviour
         }
 
         // we will only draw nodes is grid has been created.
-        if (Grid == null)
-        {
-            Debug.LogError("Error - grid not created so unable to display node gismoz");
-            return;
-        }
+        if (Grid == null) return;
 
         // make sure that the seperation is valid.
         if (nodeSeperation >= NodeSize || nodeSeperation <= 0f)
         {
-            Debug.LogError("Error - seperetion cannot be greater than or equal to size.");
+            Debug.LogError("Error - seperation cannot be greater than or equal to size.");
             return;
         }
 
