@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PathfindingGrid : MonoBehaviour
@@ -18,8 +19,7 @@ public class PathfindingGrid : MonoBehaviour
     [SerializeField] private Color outlineColour = Color.white;
     [Header("Nodes")]
     [SerializeField] private float nodeSeperation = 0.1f;
-    [Range(0f, 1f)]
-    [SerializeField] private float nodeAlpha = 0.6f;
+    [Range(0f, 1f)] [SerializeField] private float nodeAlpha = 0.6f;
     [SerializeField] private Color walkableColour = Color.green;
     [SerializeField] private Color unwalkableColour = Color.red;
 
@@ -41,6 +41,8 @@ public class PathfindingGrid : MonoBehaviour
     {
         CreateGrid();
     }
+
+    // ----------------------------- GRID CREATION -----------------------------
 
     public void CreateGrid()
     {
@@ -103,6 +105,63 @@ public class PathfindingGrid : MonoBehaviour
 
         Debug.Log($"Pathfinding grid created successfully ({gridSizeX} x {gridSizeY}) containing nodes.");
     }
+
+    // ----------------------------- NODE OPERATIONS -----------------------------
+
+    public Node NodeFromWorldPosition(Vector2 worldPosition)
+    {
+        // calculate how far the position is across the grid 0 - 1.
+        float percentX = (worldPosition.x - gridStartPosition.x) / GridSize.x;
+        float percentY = (worldPosition.y - gridStartPosition.y) / GridSize.y;
+
+        // clamping positions between 0 and 1 so that positions outside the,
+        // grid go to nearest edge.
+        percentX = Mathf.Clamp01(percentX);
+        percentY = Mathf.Clamp01(percentY);
+
+        // converting percentages into grid array indices.
+        int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
+        int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
+
+        return Grid[x, y];
+    }
+
+    public List<Node> GetNeighbours(Node node)
+    {
+        List<Node> neighbours = new();
+
+        // we need to check the eight positions surrounding the node.
+        // will give us:
+        // (-1, 1),  (0, 1),  (1, 1)
+        // (-1, 0),  CURRENT, (1, 0)
+        // (-1, -1), (0, -1), (1, -1)
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                // skip the node we are getting neighbours of.
+                if (x == 0 && y == 0) continue;
+
+                // calculate neighbours grid coordinates.
+                int neighbourX = node.GridX + x;
+                int neighbourY = node.GridY + y;
+
+                // make sure coordinates are not outside the grid.
+
+                bool validX = neighbourX >= 0 && neighbourX < gridSizeX;
+                bool validY = neighbourY >= 0 && neighbourY < gridSizeY;
+
+                if (validX && validY)
+                {
+                    neighbours.Add(Grid[neighbourX, neighbourY]);
+                }
+            }
+        }
+
+        return neighbours;
+    }
+
+    // ----------------------------- GIZMOS VISUALIZATION -----------------------------
 
     private void OnDrawGizmos()
     {
