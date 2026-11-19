@@ -4,7 +4,9 @@ public class Unit : MonoBehaviour
 {
 
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private float moveSpeed;
+    [Header("Health")]
+    public float CurrentHealth { get; private set; }
 
     [Header("Selection Indicator")]
     [SerializeField] private GameObject selectionIndicator;
@@ -14,6 +16,7 @@ public class Unit : MonoBehaviour
 
     private Vector2 destination;
     private bool isMoving;
+    public bool IsMoving => isMoving;
 
     private void Update()
     {
@@ -26,6 +29,8 @@ public class Unit : MonoBehaviour
     {
         Definition = definition;
         Team = team;
+        moveSpeed = definition.moveSpeed;
+        CurrentHealth = definition.health;
     }
 
     // ---------------------- SELECTION ----------------------
@@ -65,5 +70,20 @@ public class Unit : MonoBehaviour
 
         destination = startingPosition;
         isMoving = false;
+    }
+
+    public void TakeDamage(float damageAmount)
+    {
+        CurrentHealth -= damageAmount;
+
+        if (CurrentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }
