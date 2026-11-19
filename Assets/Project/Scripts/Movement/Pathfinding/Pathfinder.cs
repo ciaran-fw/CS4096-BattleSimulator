@@ -6,12 +6,18 @@ public class Pathfinder : MonoBehaviour
     [Header("Pathfinding Grid")]
     [SerializeField] private PathfindingGrid grid;
 
+    [Header("Pathfinding Test")]
+    [SerializeField] private Transform startPosition;
+    [SerializeField] private Transform targetPosition;
+    
+
+    private List<Node> currentPath = new List<Node>();
+
     // nodes that the algorithm has discovered but still needs to explore.
     private List<Node> openList = new();
     // nodes that the algorithm has explored.
     private HashSet<Node> closedList = new();
 
-    
     private Node GetLowestFCostNode()
     {
         Node lowestCostNode = openList[0];
@@ -60,6 +66,20 @@ public class Pathfinder : MonoBehaviour
         return (diagonalDistance * 14) + (straightDistance * 10);
     }
 
+    [ContextMenu("Find Path")]
+    public void FindPath()
+    {
+        if (startPosition == null || targetPosition == null)
+        {
+            Debug.LogError("Error - start position or target position not set..");
+            return;
+        }
+
+        currentPath = FindPath(startPosition.position, targetPosition.position);
+
+        Debug.Log($"Path found containing {currentPath.Count} nodes.");
+    }
+
     public List<Node> FindPath(Vector2 startPosition, Vector2 targetPosition)
     {
         // using A* pathfinding algorithm.
@@ -89,6 +109,9 @@ public class Pathfinder : MonoBehaviour
             node.HCost = 0;
             node.Parent = null;
         }
+
+        // add the starting node to the open list.
+        openList.Add(startNode);
 
         // we go through the open list until there is no nodes left,
         // basically we are searching the entire grid.
@@ -154,5 +177,17 @@ public class Pathfinder : MonoBehaviour
         path.Reverse();
 
         return path;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (currentPath == null || currentPath.Count == 0) return;
+
+        Gizmos.color = Color.blue;
+
+        foreach (Node node in currentPath)
+        {
+            Gizmos.DrawCube(node.WorldPosition, Vector3.one * 0.4f);
+        }
     }
 }

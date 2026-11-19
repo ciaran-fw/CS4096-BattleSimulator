@@ -103,7 +103,7 @@ public class PathfindingGrid : MonoBehaviour
             }
         }
 
-        Debug.Log($"Pathfinding grid created successfully ({gridSizeX} x {gridSizeY}) containing nodes.");
+        Debug.Log($"Pathfinding grid created successfully containing ({gridSizeX} x {gridSizeY}) nodes.");
     }
 
     // ----------------------------- NODE OPERATIONS -----------------------------
