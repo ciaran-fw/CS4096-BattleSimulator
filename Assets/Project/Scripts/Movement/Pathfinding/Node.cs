@@ -12,13 +12,13 @@ public class Node
     // A* pathfinding info. will update these values when calculating path.
     // g cost is how far from start node and h cost is how far from destination node.
     // f cost is the sum of the two.
-    public int GCost { get; private set; }
-    public int HCost { get; private set; }
+    public int GCost { get; set; }
+    public int HCost { get; set; }
 
     public int FCost => GCost + HCost;
 
     // this will store the previous node in the path.
-    public Node Parent { get; private set; }
+    public Node Parent { get; set; }
 
     public Node(bool isWalkable, Vector3 worldPosition, int gridX, int gridY)
     {
