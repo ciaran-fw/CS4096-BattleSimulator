@@ -29,6 +29,7 @@ public class BattleController : MonoBehaviour
         if (gameManager.BattlePaused)
         {
             gameManager.PlayBattle();
+            UnitAI.IsGamePaused = false;
             return;
         }
 
@@ -53,6 +54,7 @@ public class BattleController : MonoBehaviour
     public void PauseBattle()
     {
         gameManager.PauseBattle();
+        UnitAI.IsGamePaused = true;
     }
 
     public void StopBattle()
@@ -70,6 +72,7 @@ public class BattleController : MonoBehaviour
         // show divider and unit selection panel when game ends.
         sideDivider.SetActive(true);
         unitSelectionPanel.SetActive(true);
+        GameEnd.ClearBattlefield();
 
         enemyCommander.ClearArmy();
     }
@@ -95,6 +98,9 @@ public class BattleController : MonoBehaviour
             Unit unit = pair.Key;
 
             unit.ResetMovement(pair.Value);
+
+            UnitAI ai = unit.GetComponent<UnitAI>();
+            ai.ResetAI();
         }
     }
 }

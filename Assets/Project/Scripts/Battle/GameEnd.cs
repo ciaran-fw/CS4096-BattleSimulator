@@ -58,8 +58,17 @@ public class GameEnd : MonoBehaviour
         }
     }
 
-        void GoToMenu()
-        {
-            SceneManager.LoadScene("MainMenu");
-        }
+    void GoToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void ClearBattlefield()
+    {
+        if (winText != null) winText.SetActive(false);
+        if (loseText != null) loseText.SetActive(false);
+
+
+        isGameEnded = false;
+        gameStart = false;
+    }
 }

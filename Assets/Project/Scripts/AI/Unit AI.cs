@@ -8,6 +8,7 @@ public class UnitAI : MonoBehaviour
     private Unit unit;
     private Unit target;
     private float attackTimer = 0.5f;
+    public static bool IsGamePaused = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,14 +18,20 @@ public class UnitAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsGamePaused)
+        {
+            unit.MoveTo(transform.position);
+            return;
+        }
+
         if (unit.CurrentHealth <= 0 && currentState != State.Dead)
         {
             currentState = State.Dead;
             unit.Die();
             return;
-        }
+        }   
 
-        if (currentState == State.Dead)
+        if (unit.IsDead)
         {
             return;
         }
@@ -157,11 +164,6 @@ public class UnitAI : MonoBehaviour
         }
     }
 
-    void Dead()
-    {
-        unit.Die();
-    }
-
     void FindTarget()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 10f);
@@ -177,5 +179,13 @@ public class UnitAI : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void ResetAI()
+    {
+        target = null;
+        holdingPosition = false;
+        currentState = State.Idle;
+        unit.MoveTo(transform.position);
     }
 }
