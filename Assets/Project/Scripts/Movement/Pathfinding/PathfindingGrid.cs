@@ -15,9 +15,10 @@ public class PathfindingGrid : MonoBehaviour
 
     [Header("Gizmo Visualization Settings")]
     [Header("Outline")]
-    [SerializeField] private bool drawGridOutline = true;
+    [SerializeField] private bool drawOutlineGizmo = true;
     [SerializeField] private Color outlineColour = Color.white;
     [Header("Nodes")]
+    [SerializeField] private bool drawNodesGizmo = true;
     [SerializeField] private float nodeSeperation = 0.1f;
     [Range(0f, 1f)] [SerializeField] private float nodeAlpha = 0.6f;
     [SerializeField] private Color walkableColour = Color.green;
@@ -163,42 +164,47 @@ public class PathfindingGrid : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!drawOutlineGizmo && !drawNodesGizmo) return;
+
         // draw wire cube to show grid size.
-        if (drawGridOutline)
+        if (drawOutlineGizmo)
         {
             Gizmos.color = outlineColour;
             Gizmos.DrawWireCube(GridCentrePosition, GridSize);
         }
-
-        // we will only draw nodes is grid has been created.
-        if (Grid == null) return;
-
-        // make sure that the seperation is valid.
-        if (nodeSeperation >= NodeSize || nodeSeperation <= 0f)
+        
+        if (drawNodesGizmo)
         {
-            Debug.LogError("Error - seperation cannot be greater than or equal to size.");
-            return;
-        }
+            // we will only draw nodes is grid has been created.
+            if (Grid == null) return;
 
-        for (int x = 0; x < gridSizeX; x++)
-        {
-            for (int y = 0; y < gridSizeY; y++)
+            // make sure that the seperation is valid.
+            if (nodeSeperation >= NodeSize || nodeSeperation <= 0f)
             {
-                Node node = Grid[x, y];
+                Debug.LogError("Error - seperation cannot be greater than or equal to size.");
+                return;
+            }
 
-                Color nodeColour = node.IsWalkable ? walkableColour: unwalkableColour;
-                nodeColour.a = nodeAlpha;
+            for (int x = 0; x < gridSizeX; x++)
+            {
+                for (int y = 0; y < gridSizeY; y++)
+                {
+                    Node node = Grid[x, y];
 
-                Gizmos.color = nodeColour;
+                    Color nodeColour = node.IsWalkable ? walkableColour : unwalkableColour;
+                    nodeColour.a = nodeAlpha;
 
-                // we will draw a small square to display node.
-                Vector3 cubeSize = new Vector3(
-                    NodeSize - nodeSeperation,
-                    NodeSize - nodeSeperation,
-                    nodeSeperation
-                );
+                    Gizmos.color = nodeColour;
 
-                Gizmos.DrawCube(node.WorldPosition, cubeSize);
+                    // we will draw a small square to display node.
+                    Vector3 cubeSize = new Vector3(
+                        NodeSize - nodeSeperation,
+                        NodeSize - nodeSeperation,
+                        nodeSeperation
+                    );
+
+                    Gizmos.DrawCube(node.WorldPosition, cubeSize);
+                }
             }
         }
     }
