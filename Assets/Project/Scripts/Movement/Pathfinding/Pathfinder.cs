@@ -14,32 +14,10 @@ public class Pathfinder : MonoBehaviour
     private List<Node> currentPath = new List<Node>();
 
     // nodes that the algorithm has discovered but still needs to explore.
-    private List<Node> openList = new();
+    private NodeHeap openList;
     // nodes that the algorithm has explored.
     private HashSet<Node> closedList = new();
 
-    private Node GetLowestFCostNode()
-    {
-        Node lowestCostNode = openList[0];
-
-        for (int i = 1; i < openList.Count; i++)
-        {
-            Node currentNode = openList[i];
-
-            // if f costs are the same we compare h costs.
-            // if both f cost and h cost are the same we just go with node,
-            // we already have.
-            if (
-                currentNode.FCost < lowestCostNode.FCost ||
-                (currentNode.FCost == lowestCostNode.FCost) && (currentNode.HCost < lowestCostNode.HCost)
-            )
-            {
-                lowestCostNode = currentNode;
-            }
-        }
-
-        return lowestCostNode;
-    }
 
     private int GetDistance(Node nodeA, Node nodeB)
     {
@@ -100,7 +78,11 @@ public class Pathfinder : MonoBehaviour
         }
 
         // reset lists and nodes.
-        openList.Clear();
+
+        // max size = grid get row count * grid get column count.
+        int maxSize = grid.Grid.GetLength(0) * grid.Grid.GetLength(1);
+
+        openList = new NodeHeap(maxSize);
         closedList.Clear();
 
         foreach (Node node in grid.Grid)
@@ -108,6 +90,7 @@ public class Pathfinder : MonoBehaviour
             node.GCost = int.MaxValue;
             node.HCost = 0;
             node.Parent = null;
+            node.HeapIndex = -1;
         }
 
         List<Node> neighbours = new(8);
@@ -119,10 +102,8 @@ public class Pathfinder : MonoBehaviour
         // basically we are searching the entire grid.
         while (openList.Count > 0)
         {
-            Node currentNode = GetLowestFCostNode();
-
-            // mark as explored.
-            openList.Remove(currentNode);
+            // get node with lowest cost and mark it as explored.
+            Node currentNode = openList.RemoveFirst();
             closedList.Add(currentNode);
 
             // if we have reached the target retrace the path.
@@ -182,6 +163,10 @@ public class Pathfinder : MonoBehaviour
                     if (!openList.Contains(neighbour))
                     {
                         openList.Add(neighbour);
+                    }
+                    else
+                    {
+                        openList.UpdateItem(neighbour);
                     }
                 }
             }

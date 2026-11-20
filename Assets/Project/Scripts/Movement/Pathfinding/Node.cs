@@ -20,6 +20,9 @@ public class Node
     // this will store the previous node in the path.
     public Node Parent { get; set; }
 
+    // position of node inside the heap.
+    public int HeapIndex { get; set; }
+
     public Node(bool isWalkable, Vector3 worldPosition, int gridX, int gridY)
     {
         IsWalkable = isWalkable;
