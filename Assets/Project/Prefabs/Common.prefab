@@ -320,9 +320,9 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 256
-  drawOutlineGizmo: 1
+  drawOutlineGizmo: 0
   outlineColour: {r: 1, g: 1, b: 1, a: 1}
-  drawNodesGizmo: 1
+  drawNodesGizmo: 0
   nodeSeperation: 0.1
   nodeAlpha: 0.6
   walkableColour: {r: 0, g: 1, b: 0, a: 1}
