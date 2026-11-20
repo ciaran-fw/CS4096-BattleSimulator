@@ -151,6 +151,7 @@ public class UnitAI : MonoBehaviour
         attackTimer -= Time.deltaTime;
         if (attackTimer <= 0f)
         {
+            unit.PlayAttackAnimation();
             target.TakeDamage(unitStats.damage);
             attackTimer = unitStats.attack_speed;
         }

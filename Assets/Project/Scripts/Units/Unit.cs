@@ -11,6 +11,8 @@ public class Unit : MonoBehaviour
     [Header("Selection Indicator")]
     [SerializeField] private GameObject selectionIndicator;
 
+    [Header("Weapon Animation")] 
+    public Transform weaponPivot;
     public UnitDefinition Definition { get; private set; }
     public UnitTeam Team { get; private set; }
 
@@ -110,5 +112,21 @@ public class Unit : MonoBehaviour
         col.enabled = false;
         transform.rotation = Quaternion.Euler(0, 0, 90f);
         Destroy(gameObject, 3f);
+    }
+
+    // ---------------------- ANIMATION ----------------------
+    public void PlayAttackAnimation()
+    {
+        if (weaponPivot == null) return;
+
+        weaponPivot.localScale = Vector3.one * 1.5f;
+
+        Invoke(nameof(ResetWeapon), 0.1f);
+    }
+
+    private void ResetWeapon()
+    {
+        if (weaponPivot != null)
+            weaponPivot.localScale = Vector3.one;
     }
 }
