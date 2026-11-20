@@ -19,6 +19,7 @@ public class BattleController : MonoBehaviour
     [SerializeField] private EnemyAICommander enemyCommander;
 
     private Dictionary<Unit, Vector3> startingPositions = new();
+    [SerializeField] private GameEnd GameEnd;
 
     // ---------------------- BATTLE CONTROL ----------------------
 
@@ -28,6 +29,7 @@ public class BattleController : MonoBehaviour
         if (gameManager.BattlePaused)
         {
             gameManager.PlayBattle();
+            UnitAI.IsGamePaused = false;
             return;
         }
 
@@ -46,11 +48,13 @@ public class BattleController : MonoBehaviour
         unitSelectionPanel.SetActive(false);
 
         gameManager.PlayBattle();
+        GameEnd.StartBattleCheck();
     }
 
     public void PauseBattle()
     {
         gameManager.PauseBattle();
+        UnitAI.IsGamePaused = true;
     }
 
     public void StopBattle()
@@ -68,6 +72,7 @@ public class BattleController : MonoBehaviour
         // show divider and unit selection panel when game ends.
         sideDivider.SetActive(true);
         unitSelectionPanel.SetActive(true);
+        GameEnd.ClearBattlefield();
 
         enemyCommander.ClearArmy();
     }
@@ -93,6 +98,9 @@ public class BattleController : MonoBehaviour
             Unit unit = pair.Key;
 
             unit.ResetMovement(pair.Value);
+
+            UnitAI ai = unit.GetComponent<UnitAI>();
+            ai.ResetAI();
         }
     }
 }
