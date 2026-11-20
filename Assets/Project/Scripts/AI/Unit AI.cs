@@ -17,9 +17,21 @@ public class UnitAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (unit.CurrentHealth <= 0 && currentState != State.Dead)
+        {
+            currentState = State.Dead;
+            unit.Die();
+            return;
+        }
+
         if (currentState == State.Dead)
         {
             return;
+        }
+
+        if (target != null && target.IsDead)
+        {
+            target = null;
         }
 
         if (target == null && currentState != State.Hold)
@@ -98,6 +110,7 @@ public class UnitAI : MonoBehaviour
         if (distance <= safeRange)
         {
             currentState = State.Attacking;
+            unit.MoveTo(transform.position); 
         }
         else
         {
@@ -107,7 +120,7 @@ public class UnitAI : MonoBehaviour
 
     void Attack()
     {
-        if (target == null || unit.CurrentHealth <= 0)
+        if (target == null || unit.IsDead || target.IsDead)
         {
             if (holdingPosition == true)
             {
@@ -143,6 +156,11 @@ public class UnitAI : MonoBehaviour
         }
     }
 
+    void Dead()
+    {
+        unit.Die();
+    }
+
     void FindTarget()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 10f);
@@ -151,7 +169,7 @@ public class UnitAI : MonoBehaviour
         {
             Unit other = hits[i].GetComponent<Unit>();
 
-            if (other != null && other != unit && other.Team != unit.Team)
+            if (other != null && !other.IsDead && other != unit && other.Team != unit.Team)
             {
                 target = other;
                 currentState = State.Moving;

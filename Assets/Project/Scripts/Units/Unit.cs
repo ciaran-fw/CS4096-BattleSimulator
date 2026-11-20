@@ -84,9 +84,12 @@ public class Unit : MonoBehaviour
 
 
     // ---------------------- GAMEPLAY ----------------------
+    public bool IsDead { get; private set; } = false;
+
+
     public void TakeDamage(float damageAmount)
     {
-        if(CurrentHealth <= 0)
+        if(IsDead)
         {
             return;
         }
@@ -95,7 +98,7 @@ public class Unit : MonoBehaviour
 
         if (CurrentHealth <= 0)
         {
-            Die();
+            IsDead = true;
         }
     }
 
