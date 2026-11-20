@@ -110,6 +110,8 @@ public class Pathfinder : MonoBehaviour
             node.Parent = null;
         }
 
+        List<Node> neighbours = new(8);
+
         // add the starting node to the open list.
         openList.Add(startNode);
 
@@ -129,11 +131,41 @@ public class Pathfinder : MonoBehaviour
                 return RetracePath(startNode, targetNode);
             }
 
+            // getNeighbours fills our neighbours list that we pass in.
+            // trying to improve performance better than creating new list,
+            // every time.
+            grid.GetNeighbours(currentNode, neighbours);
+
             // examine all the neighbours.
-            foreach (Node neighbour in grid.GetNeighbours(currentNode))
+            foreach (Node neighbour in neighbours)
             {
                 // ignoring unwalkable nodes and ones that we have already explored.
                 if (!neighbour.IsWalkable || closedList.Contains(neighbour)) continue;
+
+                // prevent diagonal movement through blocked corners.
+                // example:
+                // (3, 6),  (4, 6),  (5, 6)
+                // (3, 5),  (4, 5),  (5, 5)
+                // (3, 4),  (4, 4),  (5, 4)
+                // if we want to go to from current node (4, 5) to neighbour (3, 6)
+                // deltaX = 3 - 4 = -1
+                // deltaY = 6 - 5 = 1
+                // we are moving up left. lets get neighbours we need to check:
+                // horizontal neighbour = Grid[4 + -1, 5] = Node at (3, 5)
+                // vertical neighbour = Grid[4, 5 + 1] = Node at (4, 6)
+                // we need to check if either are then unwalkable.
+                // we dont want unit squeezing past unwalkable nodes if a diagonal path,
+                // is possible.
+                int deltaX = neighbour.GridX - currentNode.GridX;
+                int deltaY = neighbour.GridY - currentNode.GridY;
+
+                if (deltaX != 0 && deltaY != 0)
+                {
+                    Node horizontalNeighbour = grid.Grid[currentNode.GridX + deltaX, currentNode.GridY];
+                    Node verticalNeighour = grid.Grid[currentNode.GridX, currentNode.GridY + deltaY];
+
+                    if (!horizontalNeighbour.IsWalkable || !verticalNeighour.IsWalkable) continue;
+                }
 
                 // calculate cost of reaching the neighbour.
                 // the total cost to get to current node plus cost to move to neighbour.

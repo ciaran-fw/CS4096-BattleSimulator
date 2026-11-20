@@ -126,9 +126,9 @@ public class PathfindingGrid : MonoBehaviour
         return Grid[x, y];
     }
 
-    public List<Node> GetNeighbours(Node node)
+    public void GetNeighbours(Node node, List<Node> neighbours)
     {
-        List<Node> neighbours = new();
+        neighbours.Clear();
 
         // we need to check the eight positions surrounding the node.
         // will give us:
@@ -157,8 +157,6 @@ public class PathfindingGrid : MonoBehaviour
                 }
             }
         }
-
-        return neighbours;
     }
 
     // ----------------------------- GIZMOS VISUALIZATION -----------------------------
