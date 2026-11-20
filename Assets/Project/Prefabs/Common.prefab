@@ -320,8 +320,9 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 256
-  drawGridOutline: 1
+  drawOutlineGizmo: 1
   outlineColour: {r: 1, g: 1, b: 1, a: 1}
+  drawNodesGizmo: 1
   nodeSeperation: 0.1
   nodeAlpha: 0.6
   walkableColour: {r: 0, g: 1, b: 0, a: 1}
@@ -909,6 +910,7 @@ Transform:
   m_Children:
   - {fileID: 5903960642215664796}
   - {fileID: 4346670326378440372}
+  - {fileID: 5664896355813718900}
   m_Father: {fileID: 2231918074950407659}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7638600140293370743
@@ -957,6 +959,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   startingGold: 1500
   startingUnitCount: 0
+--- !u!1 &8398133768521559874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5664896355813718900}
+  - component: {fileID: 6117792721143462768}
+  m_Layer: 0
+  m_Name: PathRequestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5664896355813718900
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8398133768521559874}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.53347, y: -0.15141, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4445466450359100906}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6117792721143462768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8398133768521559874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea25ba02024119a4ab3fe63c1d2a42ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PathRequestManager
+  pathfinder: {fileID: 1304786470336442463}
 --- !u!1 &8515067905660442756
 GameObject:
   m_ObjectHideFlags: 0

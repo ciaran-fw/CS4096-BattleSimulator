@@ -5,6 +5,7 @@ public class NodeHeap
     private int currentItemCount;
 
     public int Count => currentItemCount;
+    public int Capacity => nodes.Length;
 
     public NodeHeap(int maxHeapSize)
     {
@@ -69,6 +70,19 @@ public class NodeHeap
         // eg if nodes cost goes from 52 to 48 it will need to move up the heap to a new spot,
         // we never have a situation where a cost can go from 52 to lets say 66.
         SortUp(node);
+    }
+
+    public void Clear()
+    {
+        // reset the heap index of every node currently in the heap.
+        // this means they are no longer considered part of the heap.
+        for (int i = 0; i < currentItemCount; i++)
+        {
+            nodes[i].HeapIndex = -1;
+            nodes[i] = null;
+        }
+
+        currentItemCount = 0;
     }
 
     private void SortUp(Node node)
