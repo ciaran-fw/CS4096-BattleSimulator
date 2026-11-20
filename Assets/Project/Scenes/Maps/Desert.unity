@@ -875,74 +875,6 @@ PolygonCollider2D:
       - {x: -14.116228, y: 9.814072}
       - {x: -8.024635, y: 13.599964}
   m_UseDelaunayMesh: 1
---- !u!1 &636586162
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 636586163}
-  - component: {fileID: 636586164}
-  m_Layer: 0
-  m_Name: Support Placement Area 1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &636586163
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 636586162}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7, y: -0.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 947545745}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &636586164
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 636586162}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 3.2992172, y: 0}
-  m_Radius: 3.7992172
 --- !u!1 &858264669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1095,7 +1027,6 @@ Transform:
   - {fileID: 166320714}
   - {fileID: 286493023}
   - {fileID: 1439901052}
-  - {fileID: 636586163}
   - {fileID: 1046374805}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -30711,7 +30642,7 @@ PrefabInstance:
     - target: {fileID: 8902889349835059981, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
       propertyPath: 'supportPlacementAreas.Array.data[0]'
       value: 
-      objectReference: {fileID: 636586164}
+      objectReference: {fileID: 0}
     - target: {fileID: 9154345621672715023, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

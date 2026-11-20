@@ -6,7 +6,6 @@ public enum EnemyStrategy
     Balanced,
     CounterMelee,
     CounterRanged,
-    CounterSupport
 }
 
 public class EnemyAICommander : MonoBehaviour
@@ -19,7 +18,6 @@ public class EnemyAICommander : MonoBehaviour
 
     private int meleeCount;
     private int rangedCount;
-    private int supportCount;
 
     private EnemyStrategy strategy;
 
@@ -42,7 +40,6 @@ public class EnemyAICommander : MonoBehaviour
         // reset counts.
         meleeCount = 0;
         rangedCount = 0;
-        supportCount = 0;
 
         List<Unit> playerUnits = playerPlacementController.PlacedUnits;
 
@@ -56,26 +53,19 @@ public class EnemyAICommander : MonoBehaviour
                 case UnitRole.Ranged:
                     rangedCount++;
                     break;
-                case UnitRole.Support:
-                    supportCount++;
-                    break;
             }
         }
     }
 
     private void ChooseStrategy()
     {
-        if (meleeCount > rangedCount && meleeCount > supportCount)
+        if (meleeCount > rangedCount)
         {
             strategy = EnemyStrategy.CounterMelee;
         }
-        else if (rangedCount > meleeCount && rangedCount > supportCount)
+        else if (rangedCount > meleeCount)
         {
             strategy = EnemyStrategy.CounterRanged;
-        }
-        else if (supportCount > meleeCount && supportCount > rangedCount)
-        {
-            strategy = EnemyStrategy.CounterSupport;
         }
         else
         {
@@ -88,19 +78,18 @@ public class EnemyAICommander : MonoBehaviour
         switch (strategy)
         {
             case EnemyStrategy.CounterMelee:
-                armyBuilder.SetRoleWeights(20f, 70f, 10f);
+                armyBuilder.SetRoleWeights(20f, 70f);
+                armyBuilder.SetCostWeights(20f, 80f);
                 break;
 
             case EnemyStrategy.CounterRanged:
-                armyBuilder.SetRoleWeights(70f, 20f, 10f);
-                break;
-
-            case EnemyStrategy.CounterSupport:
-                armyBuilder.SetRoleWeights(60f, 30f, 10f);
+                armyBuilder.SetRoleWeights(70f, 20f);
+                armyBuilder.SetCostWeights(80f, 20f);
                 break;
 
             case EnemyStrategy.Balanced:
-                armyBuilder.SetRoleWeights(50f, 40f, 10f);
+                armyBuilder.SetRoleWeights(50f, 40f);
+                armyBuilder.SetCostWeights(60f, 40f);
                 break;
         }
     }

@@ -17,16 +17,12 @@ public class EnemyArmyBuilder : MonoBehaviour
     // what do we consider expensive and cheap. 300 here represents that any unit >= 300 is expensive,
     // anything < will be considered cheap.
     [SerializeField] private int expensiveCheapSeperator = 300;
-    // same as above these are not percentages.
-    [SerializeField] private float expensiveUnitWeight = 20f;
-    [SerializeField] private float cheapUnitWeight = 80f;
 
     [Header("Placement")]
 
     [Header("Placement Areas")]
     [SerializeField] private List<Collider2D> meleePlacementAreas;
     [SerializeField] private List<Collider2D> rangedPlacementAreas;
-    [SerializeField] private List<Collider2D> supportPlacementAreas;
 
     [Header("Placement Settings")]
     [SerializeField] private LayerMask blockingLayers;
@@ -35,11 +31,13 @@ public class EnemyArmyBuilder : MonoBehaviour
 
     // these are relative weigths not percentages. so you don't have to have to have them all add up,
     // to same value or have between certain range. I just like to have 0-100 as its easier to visualize.
-    private float meleeWeight = 50f;
+    private float meleeWeight = 60f;
     private float rangedWeight = 40f;
-    private float supportWeight = 10f;
 
-    private List<Unit> enemyUnits = new();
+    private float expensiveUnitWeight = 20f;
+    private float cheapUnitWeight = 80f;
+
+    private readonly List<Unit> enemyUnits = new();
 
     public void CreateArmy(bool debug)
     {
@@ -48,7 +46,7 @@ public class EnemyArmyBuilder : MonoBehaviour
 
         if (debug)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
 
             stringBuilder.Append($"Generated army (size = {enemyArmy.Count}): \n");
 
@@ -164,10 +162,6 @@ public class EnemyArmyBuilder : MonoBehaviour
         {
             return rangedWeight;
         }
-        else if (role == UnitRole.Support)
-        {
-            return supportWeight;
-        }
         else
         {
             return 0f;
@@ -193,7 +187,14 @@ public class EnemyArmyBuilder : MonoBehaviour
             List<Collider2D> placementAreas = GetPlacementAreas(unitDefinition.role);
 
             // if for some reason there is no areas set we will skip.
-            if (placementAreas == null || placementAreas.Count == 0) continue;
+            if (placementAreas == null || placementAreas.Count == 0)
+            {
+                unplacedUnits.Add(unitDefinition);
+                continue;
+            }
+
+            // create a copy so we dont change the original inspector list.
+            placementAreas = new List<Collider2D>(placementAreas);
 
             bool placed = false;
 
@@ -236,10 +237,6 @@ public class EnemyArmyBuilder : MonoBehaviour
         else if (role == UnitRole.Ranged)
         {
             return rangedPlacementAreas;
-        }
-        else if (role == UnitRole.Support)
-        {
-            return supportPlacementAreas;
         }
         else
         {
@@ -299,11 +296,16 @@ public class EnemyArmyBuilder : MonoBehaviour
     // ---------------------- SETUP ----------------------
 
 
-    public void SetRoleWeights(float melee, float ranged, float support)
+    public void SetRoleWeights(float melee, float ranged)
     {
         meleeWeight = melee;
         rangedWeight = ranged;
-        supportWeight = support;
+    }
+
+    public void SetCostWeights(float expensive, float cheap)
+    {
+        expensiveUnitWeight = expensive;
+        cheapUnitWeight = cheap;
     }
 
 }
