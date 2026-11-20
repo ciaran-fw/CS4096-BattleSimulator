@@ -41,7 +41,7 @@ public class UnitAI : MonoBehaviour
             target = null;
         }
 
-        if (target == null && currentState != State.Hold)
+        if (target == null)
         {
             FindTarget();
         }
@@ -82,6 +82,13 @@ public class UnitAI : MonoBehaviour
         currentState = State.Moving;
     }
 
+    public void CancelCommand()
+    {
+        holdingPosition = false;
+        target = null;
+        currentState = State.Idle;
+    }
+
     void Idle()
     {
         if (target != null)
@@ -98,6 +105,7 @@ public class UnitAI : MonoBehaviour
             if (distance <= unitStats.range)
             {
                 currentState = State.Attacking;
+                unit.MoveTo(transform.position);
             }
         }
     }
@@ -175,7 +183,6 @@ public class UnitAI : MonoBehaviour
             if (other != null && !other.IsDead && other != unit && other.Team != unit.Team)
             {
                 target = other;
-                currentState = State.Moving;
                 return;
             }
         }

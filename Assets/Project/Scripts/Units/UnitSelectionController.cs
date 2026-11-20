@@ -48,6 +48,10 @@ public class UnitSelectionController : MonoBehaviour
 
             selectionBox.gameObject.SetActive(false);
         }
+
+        if (Input.GetKeyDown(KeyCode.X)) CommandHold();
+        if (Input.GetKeyDown(KeyCode.Z)) CancelCommand();
+        if (Input.GetKeyDown(KeyCode.C)) CommandAttack();
     }
 
     public void SetSelectionEnabled(bool enabled)
@@ -189,5 +193,69 @@ public class UnitSelectionController : MonoBehaviour
         // account for the parents pivot position.
         selectionBox.anchoredPosition = bottomLeft - canvasRectTransform.rect.min;
         selectionBox.sizeDelta = size;
+    }
+
+    private void CommandHold()
+    {
+        if (SelectedUnits == null || SelectedUnits.Count == 0) return;
+
+        for (int i = 0; i < SelectedUnits.Count; i++)
+        {
+            Unit u = SelectedUnits[i];
+
+            if (u == null) continue;
+
+            UnitAI ai = u.GetComponent<UnitAI>();
+            if (ai != null)
+            {
+                ai.HoldCommand();
+            }
+        }
+    }
+    private void CancelCommand()
+    {
+        if (SelectedUnits == null || SelectedUnits.Count == 0) return;
+
+        for (int i = 0; i < SelectedUnits.Count; i++)
+        {
+            Unit u = SelectedUnits[i];
+
+            if (u == null) continue;
+
+            UnitAI ai = u.GetComponent<UnitAI>();
+            if (ai != null)
+            {
+                ai.CancelCommand();
+            }
+        }
+    }
+
+    private void CommandAttack()
+    {
+        if (SelectedUnits == null || SelectedUnits.Count == 0) return;
+
+        Vector2 mousePos = gameCamera.ScreenToWorldPoint(Input.mousePosition);
+
+        Collider2D hit = Physics2D.OverlapPoint(mousePos, unitLayer);
+
+        if (hit != null)
+        {
+            Unit enemy = hit.GetComponentInParent<Unit>();
+
+            if (enemy != null && enemy.Team != UnitTeam.Player)
+            {
+                for (int i = 0; i < SelectedUnits.Count; i++)
+                {
+                    Unit u = SelectedUnits[i];
+                    if (u == null) continue;
+
+                    UnitAI ai = u.GetComponent<UnitAI>();
+                    if (ai != null)
+                    {
+                        ai.AttackCommand(enemy);
+                    }
+                }
+            }
+        }
     }
 }

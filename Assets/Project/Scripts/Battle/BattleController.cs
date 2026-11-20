@@ -97,6 +97,8 @@ public class BattleController : MonoBehaviour
         {
             Unit unit = pair.Key;
 
+            if (unit == null) continue;
+
             unit.ResetMovement(pair.Value);
 
             UnitAI ai = unit.GetComponent<UnitAI>();
