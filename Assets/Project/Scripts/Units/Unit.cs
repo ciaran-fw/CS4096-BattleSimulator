@@ -68,7 +68,6 @@ public class Unit : MonoBehaviour
             moveSpeed * Time.deltaTime
         );
 
-        // if unit has reached destination stop.
         if (Vector2.Distance(transform.position, destination) < 0.05f)
         {
             transform.position = destination;

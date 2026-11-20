@@ -19,6 +19,7 @@ public class BattleController : MonoBehaviour
     [SerializeField] private EnemyAICommander enemyCommander;
 
     private Dictionary<Unit, Vector3> startingPositions = new();
+    [SerializeField] private GameEnd GameEnd;
 
     // ---------------------- BATTLE CONTROL ----------------------
 
@@ -46,6 +47,7 @@ public class BattleController : MonoBehaviour
         unitSelectionPanel.SetActive(false);
 
         gameManager.PlayBattle();
+        GameEnd.StartBattleCheck();
     }
 
     public void PauseBattle()
