@@ -54936,6 +54936,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 372590710511999913, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
+      propertyPath: drawNodesGizmo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 372590710511999913, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
+      propertyPath: drawOutlineGizmo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 372590710511999913, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
       propertyPath: gridEndPosition.x
       value: 33
       objectReference: {fileID: 0}

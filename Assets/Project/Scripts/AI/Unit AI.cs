@@ -110,7 +110,7 @@ public class UnitAI : MonoBehaviour
         if (distance <= safeRange)
         {
             currentState = State.Attacking;
-            unit.MoveTo(transform.position); 
+            unit.MoveTo(transform.position);
         }
         else
         {

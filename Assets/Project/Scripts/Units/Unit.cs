@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -16,7 +17,11 @@ public class Unit : MonoBehaviour
     public UnitDefinition Definition { get; private set; }
     public UnitTeam Team { get; private set; }
 
-    private Vector2 destination;
+
+    private List<Vector2> currentWaypoints = new();
+    // index of the waypoint the unit is currently moving towards.
+    private int currentWaypointIndex;
+
     private bool isMoving;
     public bool IsMoving => isMoving;
 
@@ -44,46 +49,65 @@ public class Unit : MonoBehaviour
 
     // ---------------------- MOVEMENT ----------------------
 
-    public void MoveTo(Vector2 positionToMoveTo)
+    public void FollowPath(List<Vector2> waypoints)
     {
         if (CurrentHealth <= 0) return;
 
-        destination = positionToMoveTo;
-        isMoving = true;
-    }
-
-    private void MoveToDestination()
-    {
-        float distToDestination = Vector2.Distance(transform.position, destination);
-
-        if (distToDestination < 1.75f)
+        // stopping the unit when no waypoints to follow.
+        if (waypoints == null || waypoints.Count == 0)
         {
             isMoving = false;
             return;
         }
 
+        currentWaypoints = waypoints;
+        currentWaypointIndex = 0;
+
+        isMoving = true;
+    }
+
+    public void MoveTo(Vector2 positionToMoveTo)
+    {
+        FollowPath(new List<Vector2> { positionToMoveTo });
+    }
+
+    private void MoveToDestination()
+    {
+        Vector2 currentWaypoint = currentWaypoints[currentWaypointIndex];
+
+        float distance = Vector2.Distance(transform.position, currentWaypoint);
+
+        // checking if we have reached the current waypoint.
+        if (distance < 0.1f)
+        {
+            currentWaypointIndex++;
+
+            // stop if reached the final waypoint.
+            if (currentWaypointIndex >= currentWaypoints.Count)
+            {
+                isMoving = false;
+                return;
+            }
+
+            // get the next waypoint.
+            currentWaypoint = currentWaypoints[currentWaypointIndex];
+        }
+
         transform.position = Vector2.MoveTowards(
             transform.position,
-            destination,
+            currentWaypoint,
             moveSpeed * Time.deltaTime
         );
-
-        // if unit has reached destination stop.
-        if (Vector2.Distance(transform.position, destination) < 0.05f)
-        {
-            transform.position = destination;
-            isMoving = false;
-        }
     }
 
     public void ResetMovement(Vector3 startingPosition)
     {
         transform.position = startingPosition;
 
-        destination = startingPosition;
+        currentWaypoints.Clear();
+        currentWaypointIndex = 0;
         isMoving = false;
     }
-
 
     // ---------------------- GAMEPLAY ----------------------
     public bool IsDead { get; private set; } = false;
@@ -128,5 +152,28 @@ public class Unit : MonoBehaviour
     {
         if (weaponPivot != null)
             weaponPivot.localScale = Vector3.one;
+    }
+
+    // ---------------------- GIZMOS ----------------------
+
+    private void OnDrawGizmos()
+    {
+        if (currentWaypoints == null || currentWaypoints.Count == 0) return;
+
+        // start drawing from the unit's current position.
+        Vector3 previousPosition = transform.position;
+
+        Gizmos.color = Color.cyan;
+
+        // draw lines connecting the remaining waypoints.
+        for (int i = currentWaypointIndex; i < currentWaypoints.Count; i++)
+        {
+            Vector3 waypointPosition = currentWaypoints[i];
+
+            Gizmos.DrawLine(previousPosition, waypointPosition);
+            Gizmos.DrawSphere(waypointPosition, 0.15f);
+
+            previousPosition = waypointPosition;
+        }
     }
 }
