@@ -28,7 +28,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip gameMusic;
 
     [Header("UI Sound Pitch")]
-    [SerializeField] private Vector2 pitchRange = new Vector2(0.95f, 1.05f);
+    [SerializeField] private Vector2 pitchRange = new(0.95f, 1.05f);
 
     private void Awake()
     {

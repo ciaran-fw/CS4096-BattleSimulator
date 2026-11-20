@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.Instance?.PlayGameMusic();
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayGameMusic();
     }
 
     private void Update()

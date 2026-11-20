@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -17,7 +16,7 @@ public class UIButtonAudio : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     {
         if (button.interactable)
         {
-            AudioManager.Instance?.PlayButtonHover();
+            if (AudioManager.Instance != null) AudioManager.Instance.PlayButtonHover();
         }
     }
 
@@ -25,11 +24,11 @@ public class UIButtonAudio : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     {
         if (button.interactable)
         {
-            AudioManager.Instance?.PlayButtonClick();
+            if (AudioManager.Instance != null)  AudioManager.Instance.PlayButtonClick();
         }
         else
         {
-            AudioManager.Instance?.PlayError();
+            if (AudioManager.Instance != null)  AudioManager.Instance.PlayError();
         }
     }
 }
