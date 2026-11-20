@@ -38,8 +38,21 @@ A 2D top-down RTS battle simulator created using Unity 6.6. Our main inspiration
 
 ***
 
+## Screenshots
+
+### Main Menu
+![Main Menu](Screenshots/main_menu.png)
+
+### Before Battle
+![Battlefield](Screenshots/before_battle.png)
+
+### During Battle
+![Combat](Screenshots/during_battle.png)
+
+***
+
 ## Tools and Software Used
 
 - **Game Engine:** Unity 6.6
 - **Programming Language:** C#
-- **Version Control:** Git & GitHub
+- **Version Control:** Git and GitHub
