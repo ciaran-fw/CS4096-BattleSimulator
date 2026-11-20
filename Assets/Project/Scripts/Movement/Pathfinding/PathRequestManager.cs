@@ -15,6 +15,21 @@ public class PathRequestManager : MonoBehaviour
 
     private bool isProcessingPath;
 
+    private static PathRequestManager instance;
+
+    public static PathRequestManager Instance => instance;
+
+    private void Awake()
+    {
+        // make this the shared path request manager.
+        if (instance != null && instance != this) return;
+
+        instance = this;
+
+        // make sure that pathfinder is set.
+        if (pathfinder == null) Debug.LogError("Error - pathfinder not found!");
+    }
+
 
     private void Update()
     {
@@ -24,11 +39,17 @@ public class PathRequestManager : MonoBehaviour
         TryProcessNext();
     }
 
-    public void RequestPath(Vector2 pathStart, Vector2 pathEnd, Action<List<Node>, bool> callback)
+    public static void RequestPath(Vector2 pathStart, Vector2 pathEnd, Action<List<Vector2>, bool> callback)
     {
+        if (instance == null)
+        {
+            Debug.LogError("Error - instance does not exist, so cant request a path!");
+            return;
+        }
+
         // create new request and add it to the queue.
         PathRequest newRequest = new(pathStart, pathEnd, callback);
-        pathRequestQueue.Enqueue(newRequest);
+        instance.pathRequestQueue.Enqueue(newRequest);
     }
 
     private void TryProcessNext()
@@ -40,17 +61,23 @@ public class PathRequestManager : MonoBehaviour
         currentPathRequest = pathRequestQueue.Dequeue();
         isProcessingPath = true;
 
-        List<Node> path = pathfinder.FindPath(
+        bool success = pathfinder.FindPath(
             currentPathRequest.PathStart,
-            currentPathRequest.PathEnd
+            currentPathRequest.PathEnd,
+            out List<Node> path
         );
 
-        // check whether a valid path was found.
-        bool success = path.Count > 0;
+        // handle the completed request.
+        FinishedProcessingPath(path, success);
+    }
 
-        // return the result to the unit that requested it,
-        // by calling the callback given.
-        currentPathRequest.Callback?.Invoke(path, success);
+    private void FinishedProcessingPath(List<Node> path, bool success)
+    {
+        // convert the node path into simplified waypoint positions.
+        List<Vector2> waypoints = PathfindingWaypoints.GenerateWaypoints(path);
+
+        // return the result to the unit that requested it.
+        currentPathRequest.Callback?.Invoke(waypoints, success);
 
         // we are now finished processing request and can move onto next one.
         isProcessingPath = false;

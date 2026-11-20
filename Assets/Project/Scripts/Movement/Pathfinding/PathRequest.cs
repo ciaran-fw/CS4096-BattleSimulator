@@ -8,11 +8,11 @@ public struct PathRequest
     public Vector2 PathEnd;
 
     // action stores a method that can be called later.
-    // it must accept a List<Node> (the calculated path) and,
+    // it must accept a List<Vector2> (the calculated path waypoints) and,
     //  a bool (wheter a valid path was found).
-    public Action<List<Node>, bool> Callback;
+    public Action<List<Vector2>, bool> Callback;
 
-    public PathRequest(Vector2 pathStart, Vector2 pathEnd, Action<List<Node>, bool> callback)
+    public PathRequest(Vector2 pathStart, Vector2 pathEnd, Action<List<Vector2>, bool> callback)
     {
         PathStart = pathStart;
         PathEnd = pathEnd;

@@ -6,24 +6,30 @@ public class Pathfinder : MonoBehaviour
     [Header("Pathfinding Grid")]
     [SerializeField] private PathfindingGrid grid;
 
-    private readonly List<Node> currentPath = new List<Node>();
-
     // nodes that the algorithm has discovered but still needs to explore.
     private NodeHeap openList;
     // nodes that the algorithm has explored.
     private HashSet<Node> closedList = new();
 
 
-    public List<Node> FindPath(Vector2 startPosition, Vector2 targetPosition)
+    public bool FindPath(Vector2 startPosition, Vector2 targetPosition, out List<Node> path)
     {
         // using A* pathfinding algorithm.
 
-        if (grid == null || grid.Grid == null) return EmptyPath();
+        if (grid == null || grid.Grid == null)
+        {
+            path = EmptyPath();
+            return false;
+        }
 
         Node startNode = grid.NodeFromWorldPosition(startPosition);
         Node targetNode = grid.NodeFromWorldPosition(targetPosition);
 
-        if (!startNode.IsWalkable || !targetNode.IsWalkable) return EmptyPath();
+        if (!startNode.IsWalkable || !targetNode.IsWalkable)
+        {
+            path = EmptyPath();
+            return false;
+        }
 
         InitialiseSearch(startNode, targetNode);
 
@@ -35,13 +41,18 @@ public class Pathfinder : MonoBehaviour
             closedList.Add(currentNode);
 
             // if we have reached the target retrace the path.
-            if (currentNode == targetNode) return RetracePath(startNode, targetNode);
+            if (currentNode == targetNode)
+            {
+                path = RetracePath(startNode, targetNode);
+                return true;
+            }
 
             ProcessNeighbours(currentNode, targetNode);
         }
 
         // incase the open list is empty and no path can be found.
-        return EmptyPath();
+        path = EmptyPath();
+        return false;
     }
 
     private void InitialiseSearch(Node startNode, Node targetNode)
