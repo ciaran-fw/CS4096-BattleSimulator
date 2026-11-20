@@ -35,6 +35,9 @@ A 2D top-down RTS battle simulator created using Unity 6.6. Our main inspiration
 | SHIFT + Left Mouse Button + DRAG | Add multiple units using selection box to selection |
 | Mouse Scroll Wheel | Zoom camera |
 | WASD / Arrow Keys | Move camera |
+| C + Mouse Pointing at enemy | All selected unit attack selected enemy unit |
+| X | All selected unit hold position |
+| Z | All selected unit cancel all commands |
 
 ***
 
