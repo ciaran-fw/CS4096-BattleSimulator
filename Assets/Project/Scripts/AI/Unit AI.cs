@@ -20,6 +20,10 @@ public class UnitAI : MonoBehaviour
     private Vector2 movementDestination;
     private bool hasMovementDestination = false;
 
+    public float retreatDistance = 3f;
+    public float retreatAmount = 6f;
+    public float retreatCooldown = 0f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -48,6 +52,13 @@ public class UnitAI : MonoBehaviour
             return;
         }
 
+        if (retreatCooldown > 0f) retreatCooldown -= Time.deltaTime;
+
+        if (currentState != State.Moving && Retreat())
+        {
+            return;
+        }
+
         if (target != null && target.IsDead)
         {
             target = null;
@@ -58,6 +69,8 @@ public class UnitAI : MonoBehaviour
         {
             FindTarget();
         }
+
+
 
         switch (currentState)
         {
@@ -326,7 +339,7 @@ public class UnitAI : MonoBehaviour
 
     void FindTarget()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 10f);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 12f);
 
         Unit nearestEnemy = null;
         float closestDistance = Mathf.Infinity;
@@ -377,6 +390,46 @@ public class UnitAI : MonoBehaviour
                 }
             }
         }
+    }
+
+    private bool Retreat()
+    {
+        if (unit.IsDead || target == null) return false;
+        if (retreatCooldown > 0f) return false;
+
+        float distance = Vector2.Distance(transform.position, target.transform.position);
+        bool shouldRetreat = false;
+
+        bool isRanged = unit.Definition.role == UnitRole.Ranged;
+
+        if (isRanged)
+        {
+            if (distance < retreatDistance)
+            {
+                shouldRetreat = true;
+            }
+        }
+        else
+        {
+            if (unit.CurrentHealth <= 50f && distance < 3f)
+            {
+                shouldRetreat = true;
+            }
+        }
+
+        if (shouldRetreat)
+        {
+            Vector2 retreatDir = (transform.position - target.transform.position).normalized;
+            Vector2 retreatPos = (Vector2)transform.position + retreatDir * retreatAmount;
+
+            MoveCommand(retreatPos);
+
+            retreatCooldown = 5f;
+
+            return true;
+        }
+
+        return false;
     }
 
     public void ResetAI()

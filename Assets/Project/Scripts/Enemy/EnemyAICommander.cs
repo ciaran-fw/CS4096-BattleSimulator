@@ -113,9 +113,18 @@ public class EnemyAICommander : MonoBehaviour
                 {
                     ai.HoldCommand();
                 }
-                else
+                else if(strategy == EnemyStrategy.CounterRanged)
                 {
                     ai.AttackCommand(targetPlayer);
+                } else
+                {
+                    if(enemyUnit.Definition.role == UnitRole.Melee)
+                    {
+                        ai.AttackCommand(targetPlayer);
+                    } else
+                    {
+                        ai.CancelCommand();
+                    }
                 }
             }
         }
