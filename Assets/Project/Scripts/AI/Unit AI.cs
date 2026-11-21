@@ -24,6 +24,7 @@ public class UnitAI : MonoBehaviour
     void Start()
     {
         unit = GetComponent<Unit>();
+        unit.OnDamaged += HandleTakeDamage;
     }
 
     // Update is called once per frame
@@ -318,7 +319,7 @@ public class UnitAI : MonoBehaviour
         if (attackTimer <= 0f)
         {
             unit.PlayAttackAnimation();
-            target.TakeDamage(unitStats.damage);
+            target.TakeDamage(unitStats.damage, unit);
             attackTimer = unitStats.attack_speed;
         }
     }
@@ -327,15 +328,50 @@ public class UnitAI : MonoBehaviour
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 10f);
 
+        Unit nearestEnemy = null;
+        float closestDistance = Mathf.Infinity;
+
         for (int i = 0; i < hits.Length; i++)
         {
             Unit other = hits[i].GetComponent<Unit>();
 
             if (other != null && !other.IsDead && other != unit && other.Team != unit.Team)
             {
-                target = other;
+                float distance = Vector2.Distance(transform.position, other.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    nearestEnemy = other;
+                }
+            }
+        }
+
+        if (nearestEnemy != null)
+        {
+            target = nearestEnemy;
+            ResetTargetPath();
+        }
+    }
+
+    private void HandleTakeDamage(Unit attacker)
+    {
+        if (attacker != null && !attacker.IsDead)
+        {
+            float distance = Vector2.Distance(transform.position, attacker.transform.position);
+
+            if (attacker != target && distance <= (unitStats.range + 2f))
+            {
+                target = attacker;
                 ResetTargetPath();
-                return;
+
+                if (holdingPosition)
+                {
+                    currentState = State.Attacking;
+                }
+                else
+                {
+                    currentState = State.Moving;
+                }
             }
         }
     }

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -24,6 +26,8 @@ public class Unit : MonoBehaviour
 
     private bool isMoving;
     public bool IsMoving => isMoving;
+
+    public event Action<Unit> OnDamaged;
 
     private void Update()
     {
@@ -78,7 +82,7 @@ public class Unit : MonoBehaviour
         float distance = Vector2.Distance(transform.position, currentWaypoint);
 
         // checking if we have reached the current waypoint.
-        if (distance < 0.1f)
+        if (distance < 1f)
         {
             currentWaypointIndex++;
 
@@ -120,12 +124,14 @@ public class Unit : MonoBehaviour
     public bool IsDead { get; private set; } = false;
 
 
-    public void TakeDamage(float damageAmount)
+    public void TakeDamage(float damageAmount, Unit attacker = null)
     {
         if(IsDead)
         {
             return;
         }
+
+        OnDamaged(attacker);
 
         CurrentHealth -= damageAmount;
 
