@@ -37,7 +37,7 @@ public class EnemyArmyBuilder : MonoBehaviour
     private float expensiveUnitWeight = 20f;
     private float cheapUnitWeight = 80f;
 
-    private readonly List<Unit> enemyUnits = new();
+    public readonly List<Unit> enemyUnits = new();
 
     public void CreateArmy(bool debug)
     {

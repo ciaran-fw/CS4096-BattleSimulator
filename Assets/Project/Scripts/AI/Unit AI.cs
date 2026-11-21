@@ -361,16 +361,19 @@ public class UnitAI : MonoBehaviour
 
             if (attacker != target && distance <= (unitStats.range + 2f))
             {
-                target = attacker;
-                ResetTargetPath();
+                if (currentState != State.Attacking)
+                {
+                    target = attacker;
+                    ResetTargetPath();
 
-                if (holdingPosition)
-                {
-                    currentState = State.Attacking;
-                }
-                else
-                {
-                    currentState = State.Moving;
+                    if (holdingPosition)
+                    {
+                        currentState = State.Attacking;
+                    }
+                    else
+                    {
+                        currentState = State.Moving;
+                    }
                 }
             }
         }

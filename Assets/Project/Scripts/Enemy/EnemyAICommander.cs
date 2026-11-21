@@ -28,6 +28,8 @@ public class EnemyAICommander : MonoBehaviour
         SetArmyBuilderWeights();
 
         armyBuilder.CreateArmy(true);
+
+        Invoke(nameof(GiveCommand), 3f);
     }
 
     public void ClearArmy()
@@ -94,4 +96,28 @@ public class EnemyAICommander : MonoBehaviour
         }
     }
 
+    private void GiveCommand()
+    {
+        if (playerPlacementController.PlacedUnits.Count == 0) return;
+
+        Unit targetPlayer = playerPlacementController.PlacedUnits[0];
+
+        foreach (Unit enemyUnit in armyBuilder.enemyUnits)
+        {
+            if (enemyUnit == null) continue;
+
+            UnitAI ai = enemyUnit.GetComponent<UnitAI>();
+            if (ai != null)
+            {
+                if (strategy == EnemyStrategy.CounterMelee)
+                {
+                    ai.HoldCommand();
+                }
+                else
+                {
+                    ai.AttackCommand(targetPlayer);
+                }
+            }
+        }
+    }
 }

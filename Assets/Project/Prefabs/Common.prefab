@@ -1594,9 +1594,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyArmyBuilder
   unitDefinitions:
-  - {fileID: 11400000, guid: fadaefe73b2e02e44b3d97d1b53d8ee4, type: 2}
-  - {fileID: 11400000, guid: f35a890b5184ff645848ab5bac5f0d35, type: 2}
-  - {fileID: 11400000, guid: bf971a397457761439150129e297cae6, type: 2}
+  - {fileID: 11400000, guid: e6eb9e0bb32a16e4a8a8cbd7ce3e8fe8, type: 2}
+  - {fileID: 11400000, guid: fa6926affc95a9d43ab15059d4f97cb7, type: 2}
+  - {fileID: 11400000, guid: 09b170a660bb9ba48a04d4a6958ead58, type: 2}
   goldAmount: 1500
   maxUnits: 30
   expensiveCheapSeperator: 300
@@ -1604,7 +1604,7 @@ MonoBehaviour:
   rangedPlacementAreas: []
   blockingLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   placementCheckRadius: 1
   maxPlacementAttempts: 10
 --- !u!1001 &8884155649966289819

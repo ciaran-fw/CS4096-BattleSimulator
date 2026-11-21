@@ -55115,10 +55115,6 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8902889349835059981, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
-      propertyPath: 'unitDefinitions.Array.data[2]'
-      value: 
-      objectReference: {fileID: 11400000, guid: bf971a397457761439150129e297cae6, type: 2}
-    - target: {fileID: 8902889349835059981, guid: 5c9903dc482a81a42bca94e4e000d172, type: 3}
       propertyPath: 'unitDefinitions.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 37009a4ebd6deae45b045698d4b13a81, type: 2}
