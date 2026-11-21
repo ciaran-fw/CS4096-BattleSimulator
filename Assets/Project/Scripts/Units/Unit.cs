@@ -100,6 +100,13 @@ public class Unit : MonoBehaviour
         );
     }
 
+    public void StopMovement()
+    {
+        currentWaypoints.Clear();
+        currentWaypointIndex = 0;
+        isMoving = false;
+    }
+
     public void ResetMovement(Vector3 startingPosition)
     {
         transform.position = startingPosition;

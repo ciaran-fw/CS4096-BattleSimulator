@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitAI : MonoBehaviour
@@ -9,6 +10,16 @@ public class UnitAI : MonoBehaviour
     private Unit target;
     private float attackTimer = 0.5f;
     public static bool IsGamePaused = false;
+
+    private bool pathRequested = false;
+    private bool hasRequestedPath = false;
+    private Vector2 lastRequestedPosition = Vector2.zero;
+
+    private float targetMoveThreshold = 1.5f;
+
+    private Vector2 movementDestination;
+    private bool hasMovementDestination = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,7 +31,7 @@ public class UnitAI : MonoBehaviour
     {
         if (IsGamePaused)
         {
-            unit.MoveTo(transform.position);
+            unit.StopMovement();
             return;
         }
 
@@ -39,9 +50,10 @@ public class UnitAI : MonoBehaviour
         if (target != null && target.IsDead)
         {
             target = null;
+            ResetTargetPath();
         }
 
-        if (target == null)
+        if (target == null && !hasMovementDestination)
         {
             FindTarget();
         }
@@ -68,6 +80,8 @@ public class UnitAI : MonoBehaviour
     {
         holdingPosition = true;
         target = null;
+        hasMovementDestination = false;
+        ResetTargetPath();
         currentState = State.Hold;
     }
 
@@ -78,6 +92,8 @@ public class UnitAI : MonoBehaviour
             return;
         }
         target = aim;
+        hasMovementDestination = false;
+        ResetTargetPath();
         holdingPosition = false;
         currentState = State.Moving;
     }
@@ -86,7 +102,23 @@ public class UnitAI : MonoBehaviour
     {
         holdingPosition = false;
         target = null;
+        hasMovementDestination = false;
+        ResetTargetPath();
         currentState = State.Idle;
+    }
+
+    public void MoveCommand(Vector2 destination)
+    {
+        target = null;
+        holdingPosition = false;
+
+        ResetTargetPath();
+
+        movementDestination = destination;
+        hasMovementDestination = true;
+
+        currentState = State.Moving;
+        RequestPath(destination);
     }
 
     void Idle()
@@ -105,16 +137,123 @@ public class UnitAI : MonoBehaviour
             if (distance <= unitStats.range)
             {
                 currentState = State.Attacking;
-                unit.MoveTo(transform.position);
+                unit.StopMovement();
             }
         }
     }
 
+    private void RequestPath(Vector2 destination)
+    {
+        // dont request a path if one has already been requested.
+        if (pathRequested) return;
+
+        // a path must have either a target or a player movement command.
+        if (target == null && !hasMovementDestination) return;
+
+        pathRequested = true;
+        hasRequestedPath = true;
+        lastRequestedPosition = destination;
+        bool isPlayerMovement = hasMovementDestination;
+
+        Unit requestedTarget = target;
+
+        PathRequestManager.RequestPath(
+            transform.position,
+            destination,
+            // using a lambda so that we can make sure that the targets line up when the path is recieved,
+            // we could ask for a path to a target and then change target before the path request gets back.
+            // we also want to pass in wheter this is a player movement command.
+            (waypoints, success) => OnPathFound(waypoints, success, requestedTarget, isPlayerMovement)
+        );
+    }
+
+    private void OnPathFound(List<Vector2> waypoints, bool success, Unit requestedTarget, bool isPlayerMovement)
+    {
+        pathRequested = false;
+
+        // dont follow the path if the unit is dead.
+        // a unit can request a path and then die while its request was in queue.
+        if (unit == null || unit.IsDead) return;
+
+        // if the unit is no longer moving we can ignore the path got.
+        if (currentState != State.Moving) return;
+
+        if (!success)
+        {
+            hasRequestedPath = false;
+
+            if (isPlayerMovement)
+            {
+                hasMovementDestination = false;
+                currentState = State.Idle;
+            }
+
+            return;
+        }
+
+        // player movement command.
+        if (isPlayerMovement)
+        {
+            if (!hasMovementDestination || target != null) return;
+
+            unit.FollowPath(waypoints);
+            return;
+        }
+
+        // targeting enemy movement.
+
+        // ignore the path if we have changed targets.
+        // or the target has died.
+        if (requestedTarget == null || requestedTarget != target || requestedTarget.IsDead) return;
+
+        unit.FollowPath(waypoints);
+    }
+
+    private void UpdatePath()
+    {
+        Vector2 targetPosition = target.transform.position;
+
+        // we want to check how far the unit has moved since the last request.
+        float distanceMoved = Vector2.Distance(
+            lastRequestedPosition,
+            targetPosition
+        );
+
+        // only requesting path if the target has moved far enough.
+        if (!pathRequested && distanceMoved >= targetMoveThreshold)
+        {
+            RequestPath(targetPosition);
+        }
+    }
+
+    private void ResetTargetPath()
+    {
+        hasRequestedPath = false;
+        lastRequestedPosition = Vector2.zero;
+
+        unit.StopMovement();
+    }
+
     void Moving()
     {
+        // player movement command.
+        if (hasMovementDestination)
+        {
+            if (!unit.IsMoving && !pathRequested && hasRequestedPath)
+            {
+                currentState = State.Idle;
+                hasMovementDestination = false;
+                hasRequestedPath = false;
+            }
+
+            return;
+        }
+
+        // enemy target movement.
         if (target == null)
         {
             currentState = State.Idle;
+            unit.StopMovement();
             return;
         }
 
@@ -125,11 +264,23 @@ public class UnitAI : MonoBehaviour
         if (distance <= safeRange)
         {
             currentState = State.Attacking;
-            unit.MoveTo(transform.position);
+            unit.StopMovement();
+            return;
+        }
+
+        // if target is still to far away request a path to the targets position.
+        // once the path has been found it will call OnPathFound and that will tell the unit to move,
+        // using FollowPath in the Unit script.
+
+        // if this is the first time requesting path to the current target we can just request one,
+        // otherwise we need to update the current path.
+        if (!hasRequestedPath)
+        {
+            RequestPath(target.transform.position);
         }
         else
         {
-            unit.MoveTo(target.transform.position);
+            UpdatePath();
         }
     }
 
@@ -183,6 +334,7 @@ public class UnitAI : MonoBehaviour
             if (other != null && !other.IsDead && other != unit && other.Team != unit.Team)
             {
                 target = other;
+                ResetTargetPath();
                 return;
             }
         }
@@ -192,7 +344,12 @@ public class UnitAI : MonoBehaviour
     {
         target = null;
         holdingPosition = false;
+        hasMovementDestination = false;
+
+        hasRequestedPath = false;
+        lastRequestedPosition = Vector2.zero;
+
         currentState = State.Idle;
-        unit.MoveTo(transform.position);
+        unit.StopMovement();
     }
 }
