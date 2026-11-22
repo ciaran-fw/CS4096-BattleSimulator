@@ -29,7 +29,7 @@ public class GameEnd : MonoBehaviour
         int playerCount = 0;
         int enemyCount = 0;
 
-        Unit[] allUnits = FindObjectsOfType<Unit>();
+        Unit[] allUnits = FindObjectsByType<Unit>();
 
         foreach (Unit unit in allUnits)
         {

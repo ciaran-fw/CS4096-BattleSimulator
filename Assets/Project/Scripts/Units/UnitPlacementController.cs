@@ -20,6 +20,9 @@ public class UnitPlacementController : MonoBehaviour
     [SerializeField] private Color validPreviewColor = new(0f, 1f, 0f, 0.5f);
     [SerializeField] private Color invalidPreviewColor = new(1f, 0f, 0f, 0.5f);
 
+    [Header("Testing")]
+    [SerializeField] private bool freePlacement = false;
+
     private SpriteRenderer previewRenderer;
     private GameObject previewObject;
 
@@ -132,6 +135,9 @@ public class UnitPlacementController : MonoBehaviour
 
     private bool IsPlacementValid(Vector3 position)
     {
+        // just for testing so I can place units anywhere.
+        if (freePlacement) return true;
+
         // only allowed to place units on left side.
         // this is not really neccassary if placement areas are setup correctly,
         // just in case i'll keep this here though.

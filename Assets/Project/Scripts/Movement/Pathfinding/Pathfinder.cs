@@ -9,8 +9,7 @@ public class Pathfinder : MonoBehaviour
     // nodes that the algorithm has discovered but still needs to explore.
     private NodeHeap openList;
     // nodes that the algorithm has explored.
-    private HashSet<Node> closedList = new();
-
+    private readonly HashSet<Node> closedList = new();
 
     public bool FindPath(Vector2 startPosition, Vector2 targetPosition, out List<Node> path)
     {

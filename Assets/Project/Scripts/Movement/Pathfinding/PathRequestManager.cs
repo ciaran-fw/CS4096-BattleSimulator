@@ -8,7 +8,7 @@ public class PathRequestManager : MonoBehaviour
     [SerializeField] private Pathfinder pathfinder;
 
     // stores path requests waiting to be processed.
-    private Queue<PathRequest> pathRequestQueue = new();
+    private readonly Queue<PathRequest> pathRequestQueue = new();
 
     // the request that is currently being processed.
     private PathRequest currentPathRequest;
